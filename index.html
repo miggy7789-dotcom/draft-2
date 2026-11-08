@@ -78,6 +78,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .copybtn{position:absolute;top:8px;right:8px;width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--sky);border-radius:8px;background:var(--sky-l);color:var(--blue-d);padding:0}
 .copybtn:hover{border-color:var(--pink);color:var(--pink-d)}
 .copybtn.done{background:var(--green);border-color:var(--green-d);color:#10230d}
+.clearbtn{top:46px}
+.clearbtn:hover{border-color:var(--pink-d);background:var(--pink-l);color:var(--pink-d)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:20;padding:16px}
+.mbox{background:var(--paper);color:var(--ink);border:2px solid var(--pink);border-radius:14px;padding:18px 20px;max-width:380px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.mbox h3{margin:0 0 8px;font-size:1rem;color:var(--pink-d)}
+.mbox p{margin:0 0 16px}
+.mrow{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 .copied{position:absolute;top:12px;right:48px;background:var(--green);color:#10230d;font-weight:800;border-radius:99px;padding:2px 10px}
 .write{border:2px solid var(--sky);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;padding:10px;min-height:260px;resize:vertical;width:100%}
 .pg{font-size:11px;margin-right:6px}
@@ -162,11 +169,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 
     <div class="viewer hidden" id="viewer" aria-live="polite">
       <div class="wbar"><h2 id="v-title"></h2><span class="pill" id="v-done"></span><span class="pg" id="v-pg"></span><button class="round" id="v-prev" aria-label="Previous page">‹</button><button class="round" id="v-next" aria-label="Next page">›</button><button class="round x" id="v-close" aria-label="Close">✕</button></div>
-      <div class="vgrid"><div class="steps" id="steps"></div><div class="writewrap"><textarea class="write" id="write" placeholder="TYPE HERE..." aria-label="Writing area"></textarea><button class="copybtn" id="copy" type="button" aria-label="Copy text" title="Copy text"><svg id="copy-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><span class="copied hidden" id="copied" role="status">Copied!</span></div></div>
+      <div class="vgrid"><div class="steps" id="steps"></div><div class="writewrap"><textarea class="write" id="write" placeholder="TYPE HERE..." aria-label="Writing area"></textarea><button class="copybtn" id="copy" type="button" aria-label="Copy text" title="Copy text"><svg id="copy-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="copybtn clearbtn" id="clear" type="button" aria-label="Clear all text" title="Clear all text"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg></button><span class="copied hidden" id="copied" role="status">Copied!</span></div></div>
     </div>
   </section>
 </div>
 
+<div class="modal hidden" id="confirm" role="alertdialog" aria-modal="true" aria-labelledby="c-t" aria-describedby="c-d">
+  <div class="mbox">
+    <h3 id="c-t">Delete text?</h3>
+    <p id="c-d">Are you sure you want to delete the text? This cannot be brought back.</p>
+    <div class="mrow"><button class="ghost" id="c-no" type="button">No, keep it</button><button class="studybtn" id="c-yes" type="button">Yes, delete</button></div>
+  </div>
+</div>
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.";
@@ -385,6 +399,28 @@ $('#copy').onclick=async()=>{
   const b=$('#copy');b.classList.add('done');$('#copy-ic').innerHTML=ICON_OK;$('#copied').classList.remove('hidden');
   setTimeout(()=>{b.classList.remove('done');$('#copy-ic').innerHTML=ICON_COPY;$('#copied').classList.add('hidden')},1600);
 };
+
+
+/* clear with confirmation */
+let lastFocus=null;
+function openConfirm(){
+  if(!$('#write').value)return;
+  lastFocus=document.activeElement;$('#confirm').classList.remove('hidden');$('#c-no').focus();
+}
+function closeConfirm(){$('#confirm').classList.add('hidden');if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+$('#clear').onclick=openConfirm;
+$('#c-no').onclick=closeConfirm;
+$('#c-yes').onclick=()=>{
+  const w=$('#write');w.value='';store[w.dataset.key]='';save();closeConfirm();w.focus();
+};
+$('#confirm').addEventListener('click',e=>{if(e.target.id==='confirm')closeConfirm()});
+document.addEventListener('keydown',e=>{
+  if($('#confirm').classList.contains('hidden'))return;
+  if(e.key==='Escape'){closeConfirm();return}
+  if(e.key==='Tab'){const a=$('#c-no'),b=$('#c-yes');
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus()}
+    else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus()}}
+});
 
 /* tabs + cards */
 function tab(t){
