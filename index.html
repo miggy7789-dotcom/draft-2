@@ -100,6 +100,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .studybtn:hover{filter:brightness(.95)}
 .cardsh{margin:0 0 10px;font-size:12px;color:var(--pink-d)}
 .qcard{background:var(--paper);border:2px solid var(--sky);border-radius:14px;margin:0 0 12px;overflow:hidden}
+.qh,.sh{font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--pink-d)}
+.qh{padding:12px 16px 0}.qh+.qt{padding-top:6px!important}.sh{margin:0 0 6px}
+.opt.sel{background:var(--pink-l);border-color:var(--pink);font-weight:800}
 .qcard .qt{padding:12px 16px;font-weight:800;border-bottom:1px dashed var(--sky)}
 .qcard mark,.sq mark{background:var(--green-l);color:inherit;border-radius:4px;padding:0 3px}
 .qcard ul{list-style:none;margin:12px;padding:0;border:2px solid var(--sky);border-radius:14px;overflow:hidden}
@@ -342,45 +345,74 @@ $('#write').addEventListener('input',e=>{store[e.target.dataset.key]=e.target.va
 
 
 /* quiz deck */
+const QL="Characteristics of Qualitative Research",QN="Characteristics of Quantitative Research";
+const RES3=["Quantitative Research","Qualitative Research","Mixed Method Research"];
+/* Q(question, options, correct index OR array of indexes for "select all", optional heading). **text** = highlighted */
+const Q=(q,opts,a=0,h)=>({q,opts,a,h});
 const QUIZ={title:"Research Time!",cards:[
- {q:"“It is a **systematic and disciplined investigation** designed to discover, interpret, and revise facts, theories, or practical applications. By combining structured methodologies with empirical data or critical analysis, it moves beyond mere information-gathering to establish new insights and validate existing knowledge.” Based on what you studied from the website, what does this definition refer to?",
-  opts:["Research","Quantitative Research","Qualitative Research","Mixed Method Research"],a:0},
- {q:"This type of research mainly focuses on gathering participants’ experiences, perceptions, and behavior.",
-  opts:["Qualitative Research","Quantitative Research","Mixed Method Research"],a:0}
+ Q("“It is a **systematic and disciplined investigation** designed to discover, interpret, and revise facts, theories, or practical applications. By combining structured methodologies with empirical data or critical analysis, it moves beyond mere information-gathering to establish new insights and validate existing knowledge.” Based on what you studied from the website, what does this definition refer to?",["Research","Quantitative Research","Qualitative Research","Mixed Method Research"]),
+ Q("This type of research mainly focuses on gathering participants’ experiences, perceptions, and behavior.",["Qualitative Research","Quantitative Research","Mixed Method Research"]),
+ Q("What question or questions the Qualitative Research answers?",["“How?” and “Why?”","“How?” only","“How Many?” only","“Why?” only","“How Much?” only","“How Many?” and “How Much?”"]),
+ Q("It is a type of Research approach that collects and analyzes non-numerical data to understand concepts, opinions, or experiences.",["Qualitative Research","Quantitative Research","Mixed Method Research"]),
+
+ Q("This characteristic of Qualitative Research enables it to be subject to interference, impressions, and an inductive form of reasoning. This identifies pattern and assumptions for a group or sample.",["Interpretative","Naturalistic","Socially Constructed Reality","Emic Perspective","Primacy of Subject Matter","Reflexivity"],0,QL),
+ Q("This characteristic in Qualitative Research means the study was conducted in a field or setting where participants live, work, and play rather than an artificial or controlled environment.",["Naturalistic","Reflexivity","Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Primacy of Subject Matter"],0,QL),
+ Q("This characteristic emphasizes the importance of studying individuals in their natural environment to gain authentic insights into their experiences and behaviors.",["Naturalistic Setting","Naturalistic","Primacy of Subject Matter","Interpretative Analysis","Socially Constructed Reality","Emic Perspective"],0,QL),
+ Q("This characteristic helps define human behaviors and experiences are complex and influenced by multiple interrelated factors that cannot be easily isolated and measured quantitatively.",["Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Socially Constructed Reality","Emic Perspective","Primacy of Subject Matter"],0,QL),
+ Q("This highlights the subjective nature of qualitative research given that the data gathered are non-numerical and mainly revolving on human behaviors and experiences, and that the role of researchers are necessary in explaining the collected data.",["Interpretative Analysis","Reflexivity","Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Socially Constructed Reality"],0,QL),
+ Q("This refers to how researchers’ own thoughts, feelings, and behaviors interact with the research site and the research itself.",["Reflexivity","Naturalistic","Interpretative","Complex and Interwoven Variables","Emic Perspective","Primacy of Subject Matter"],0,QL),
+ Q("This characteristic states that the reality if subjective and is different between each individual based on their social context as it is constantly created and shared through interactions and culture.",["Socially Constructed Reality","Interpretative","Emic Perspective","Complex and Interwoven Variables","Interpretative Analysis","Naturalistic Setting"],0,QL),
+ Q("This characteristic focuses and emphasizes on understanding the experiences of the individuals or participants rather than testing hypotheses and using standard statistical framework.",["Primacy of Subject Matter","Emic Perspective","Naturalistic Setting","Complex and Interwoven Variables","Interpretative Analysis","Interpretative"],0,QL),
+ Q("This characteristic focuses on understanding the topic, field, or phenomenon being studied through the lens of the participants, capturing their interpretations and meanings.",["Emic Perspective","Primacy of Subject Matter","Naturalistic Setting","Socially Constructed Reality","Complex and Interwoven Variables","Reflexivity"],0,QL),
+
+ Q("This type of research approach utilizes numerical data to present evidences and information of a study.",RES3),
+ Q("It is a structured and an empirical approach that tests hypotheses and examines relationships, patterns, and trends between variables involved. What type of research approach is this?",RES3),
+ Q("Which among the choices does the Quantitative Research answers?",["“How Many?” and “How Much?”","“Why?” only","“How Many?” only","“How?” and “Why?”","“How?” only","“How Much?” only"]),
+ Q("As mentioned in the website, what are the three designs that the Quantitative Research can be used for? (Select all that applies.)",["Descriptive","Correlational","Experimental","Phenomological","Ethnographic","Grounded","Case"],[0,1,2]),
+ Q("This type of Quantitative Research design is systematic in nature that collects, measures, and analyzes data in order to provide interpretation of hat the study focuses on.",["Descriptive Quantitative Research","Quantitative Correlational","Quantitative Experimental Research"]),
+ Q("It is a type of Quantitative Research design wherein researchers do not manipulate any variable involved in the study, instead, they let it naturally occur and analyzes the data collected using statistical methods.",["Quantitative Correlational Research","Descriptive Quantitative Research","Quantitative Experimental Research"]),
+ Q("This states that the Quantitative Research relies heavily on factual, measurable data rather than personal opinions and interpretations.",["Objective","Measurable Variables","Structured Standard Instruments","Sampling","Numerical Data","Replication"],0,QN)
 ]};
 const fmt=t=>esc(t).replace(/\*\*(.+?)\*\*/g,'<mark>$1</mark>');
-let qs={i:0,score:0,done:false};
+const isMulti=c=>Array.isArray(c.a), answersOf=c=>isMulti(c)?c.a:[c.a];
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let qs={i:0,score:0};
 function renderDeck(){
   const n=QUIZ.cards.length;
   $('#deck-title').textContent=QUIZ.title;
   $('#deck-sub').textContent=`Deck · ${n} card${n===1?'':'s'}`;
   $('#cards-h').textContent=`Cards (${n})`;
-  $('#cards').innerHTML=QUIZ.cards.map(c=>`<article class="qcard"><div class="qt">${fmt(c.q)}</div><ul>${c.opts.map((o,k)=>`<li class="${k===c.a?'ok':''}"><span class="ic" aria-hidden="true">${k===c.a?'✓':'✕'}</span><span>${esc(o)}${k===c.a?'<span class="sr" hidden> (correct)</span>':''}</span></li>`).join('')}</ul></article>`).join('');
+  $('#cards').innerHTML=QUIZ.cards.map(c=>{const ans=answersOf(c);return `<article class="qcard">${c.h?`<div class="qh">${esc(c.h)}</div>`:''}<div class="qt">${fmt(c.q)}</div><ul>${c.opts.map((o,k)=>{const ok=ans.includes(k);return `<li class="${ok?'ok':''}"><span class="ic" aria-hidden="true">${ok?'✓':'✕'}</span><span>${esc(o)}</span></li>`}).join('')}</ul></article>`}).join('');
 }
 function showStudy(on){
   $('#materials').classList.toggle('hidden',on);$('#study').classList.toggle('hidden',!on);
   $('#study-btn').classList.toggle('hidden',on);
 }
-function startStudy(){qs={i:0,score:0,done:false};showStudy(true);renderQ();$('#quiz').scrollIntoView({block:'start'})}
+function startStudy(){qs={i:0,score:0};showStudy(true);renderQ();$('#quiz').scrollIntoView({block:'start'})}
 function renderQ(){
   const n=QUIZ.cards.length,box=$('#study');
   if(qs.i>=n){
     box.innerHTML=`<div class="sq score"><p class="big">${qs.score}/${n}</p><p>${qs.score===n?'Perfect score! You know your research basics.':'Nice try! Review the deck and give it another go.'}</p><div class="row"><button class="studybtn" id="s-retry">Try again</button><button class="ghost" id="s-back">Back to deck</button></div></div>`;
     $('#s-retry').onclick=startStudy;$('#s-back').onclick=()=>showStudy(false);return;
   }
-  const c=QUIZ.cards[qs.i];
+  const c=QUIZ.cards[qs.i],multi=isMulti(c);
   box.innerHTML=`<div class="sq"><div class="sprog"><span>Question ${qs.i+1} of ${n}</span><div class="bar"><i style="width:${qs.i/n*100}%"></i></div><button class="ghost" id="s-exit">Exit</button></div>
-   <p class="qt">${fmt(c.q)}</p><div class="opts">${c.opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}</div>
-   <div class="sfoot"><span class="fb" id="fb"></span></div></div>`;
+   ${c.h?`<p class="sh">${esc(c.h)}</p>`:''}<p class="qt">${fmt(c.q)}</p>
+   <div class="opts">${shuffle(c.opts.map((_,k)=>k)).map(k=>`<button class="opt" data-k="${k}"${multi?' aria-pressed="false"':''}>${esc(c.opts[k])}</button>`).join('')}</div>
+   <div class="sfoot">${multi?'<span class="fb">Select all that apply.</span><button class="studybtn" id="s-check">Check answer</button>':'<span class="fb" id="fb"></span>'}</div></div>`;
   $('#s-exit').onclick=()=>showStudy(false);
-  $$('#study .opt').forEach(b=>b.onclick=()=>answer(+b.dataset.k));
+  if(multi){
+    $$('#study .opt').forEach(b=>b.onclick=()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.classList.toggle('sel',on)});
+    $('#s-check').onclick=()=>{const p=$$('#study .opt[aria-pressed=true]').map(b=>+b.dataset.k);if(p.length)grade(p)};
+  }else $$('#study .opt').forEach(b=>b.onclick=()=>grade([+b.dataset.k]));
 }
-function answer(k){
-  const c=QUIZ.cards[qs.i],ok=k===c.a;
+function grade(picked){
+  const c=QUIZ.cards[qs.i],ans=answersOf(c);
+  const ok=picked.length===ans.length&&picked.every(k=>ans.includes(k));
   if(ok)qs.score++;
-  $$('#study .opt').forEach((b,j)=>{b.disabled=true;if(j===c.a)b.classList.add('right');else if(j===k)b.classList.add('wrong')});
+  $$('#study .opt').forEach(b=>{const k=+b.dataset.k;b.disabled=true;b.classList.remove('sel');if(ans.includes(k))b.classList.add('right');else if(picked.includes(k))b.classList.add('wrong')});
   const last=qs.i===QUIZ.cards.length-1;
-  $('.sfoot').innerHTML=`<span class="fb ${ok?'ok':'no'}">${ok?'Correct!':'Not quite — the answer is '+esc(c.opts[c.a])+'.'}</span><button class="studybtn" id="s-next">${last?'See results':'Next'}</button>`;
+  $('.sfoot').innerHTML=`<span class="fb ${ok?'ok':'no'}">${ok?'Correct!':'Not quite — the answer is '+esc(ans.map(k=>c.opts[k]).join(', '))+'.'}</span><button class="studybtn" id="s-next">${last?'See results':'Next'}</button>`;
   $('#s-next').onclick=()=>{qs.i++;renderQ()};$('#s-next').focus();
 }
 $('#study-btn').onclick=startStudy;
