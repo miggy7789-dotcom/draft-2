@@ -54,7 +54,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .nums{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0 6px 56px}
 .nums button{width:38px;height:34px;border:2px solid var(--sky);border-radius:8px;background:var(--sky-l);font-family:var(--head);font-weight:700;font-size:12px;color:var(--blue-d)}
 .nums button:hover{border-color:var(--pink)}
-.nums button[aria-current=true]{background:var(--pink);border-color:var(--pink);color:#fff}
+.nums button[aria-current=true]{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--blue-d)}
+.nums button.done{background:var(--pink);border-color:var(--pink);color:#fff}
+.acc .dot.done{background:var(--green);border-color:var(--green-d);display:grid;place-items:center;font-size:12px;line-height:1;font-weight:800;color:#10230d}
 
 /* step viewer */
 .viewer{background:var(--paper);border:2px solid var(--sky);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.2);overflow:hidden;margin:20px 0}
@@ -254,6 +256,9 @@ const DATA={
 const store={};
 try{Object.assign(store,JSON.parse(localStorage.getItem('drafts')||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem('drafts',JSON.stringify(store))}catch(e){}};
+const checks={};
+try{Object.assign(checks,JSON.parse(localStorage.getItem('checks')||'{}'))}catch(e){}
+const saveChecks=()=>{try{localStorage.setItem('checks',JSON.stringify(checks))}catch(e){}};
 
 /* build accordion */
 const acc=$('#acc');
@@ -275,6 +280,17 @@ $('#a-close').onclick=()=>{$('#activities').classList.add('hidden');$('#viewer')
 
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const list=a=>`<ul>${a.map((x,i)=>typeof x==='string'?`<li>${esc(x)}${Array.isArray(a[i+1])?list(a[i+1]):''}</li>`:'').join('')}</ul>`;
+
+/* completion: a stage is done when every step on all of its pages is checked */
+const stageDone=(s,i)=>Object.values(DATA)[s][i][1].every((steps,p)=>{const c=checks[`${s}-${i}-${p}`]||[];return steps.every((_,j)=>c[j])});
+function updateDone(){
+  $$('.nums button').forEach(b=>b.classList.toggle('done',stageDone(+b.dataset.s,+b.dataset.i)));
+  $$('.acc .head .dot').forEach((d,si)=>{
+    const all=Object.values(DATA)[si].every((_,i)=>stageDone(si,i));
+    d.classList.toggle('done',all);d.textContent=all?'\u2713':'';
+  });
+}
+updateDone();
 /* viewer */
 let cur={s:0,flat:[],k:0};
 function openViewer(s,i){
@@ -288,13 +304,19 @@ function render(){
   const f=cur.flat[cur.k], key=`${cur.s}-${f.ii}-${f.p}`;
   $('#v-title').textContent=`${f.ii+1} - ${f.name}`;
   $('#v-pg').textContent=f.of>1?`page ${f.p+1}/${f.of}`:'';
-  $('#steps').innerHTML=`<h3 class="fun">Steps</h3>`+f.steps.map(st=>`<div class="step"><label><input type="checkbox"><span>${esc(st[0])}</span></label>${st.slice(1).map(b=>typeof b==='string'?`<p>${esc(b)}</p>`:list(b)).join('')}</div>`).join('');
+  $('#steps').innerHTML=`<h3 class="fun">Steps</h3>`+f.steps.map((st,j)=>`<div class="step"><label><input type="checkbox" data-j="${j}"${(checks[key]||[])[j]?' checked':''}><span>${esc(st[0])}</span></label>${st.slice(1).map(b=>typeof b==='string'?`<p>${esc(b)}</p>`:list(b)).join('')}</div>`).join('');
   const w=$('#write');w.value=store[key]||'';w.dataset.key=key;
   $('#v-prev').disabled=cur.k===0;$('#v-next').disabled=cur.k===cur.flat.length-1;
 }
 $('#v-prev').onclick=()=>{cur.k--;render()};
 $('#v-next').onclick=()=>{cur.k++;render()};
 $('#v-close').onclick=()=>$('#viewer').classList.add('hidden');
+$('#steps').addEventListener('change',e=>{
+  const cb=e.target.closest('input[type=checkbox]');if(!cb)return;
+  const f=cur.flat[cur.k],key=`${cur.s}-${f.ii}-${f.p}`;
+  const arr=checks[key]||(checks[key]=[]);arr[+cb.dataset.j]=cb.checked;
+  saveChecks();updateDone();
+});
 $('#write').addEventListener('input',e=>{store[e.target.dataset.key]=e.target.value;save()});
 
 
