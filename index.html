@@ -122,10 +122,18 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .mbox p { margin: 0 0 16px; }
 .mrow { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
 
+/* Course-complete pop-up */
+.cong { text-align: center; }
+.cong p { font-weight: 800; font-size: 14px; }
+.cong .mrow { justify-content: center; }
+
 /* ============ Quiz deck ============ */
 .deck { margin: 20px 0; }
 .deckhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
 .deckhead h2 { margin: 0; font-size: 1.3rem; color: var(--blue-d); }
+.decks { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.decks button { padding: 8px 16px; border: 2px solid var(--sky); border-radius: 99px; background: var(--sky-l); color: var(--ink); font: 700 12px var(--head); letter-spacing: .03em; text-align: left; }
+.decks button[aria-pressed=true] { background: var(--pink); border-color: var(--pink); color: #fff; }
 .deck-sub { margin: 2px 0 0; opacity: .75; }
 .cardsh { margin: 0 0 10px; font-size: 12px; color: var(--pink-d); }
 
@@ -212,7 +220,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
     <section id="interactives">
 
       <div class="games">
-        <button class="game" aria-pressed="false" data-g="quiz"><h3 class="fun">Quiz</h3>Test what you learned. Study a deck of questions on research basics and see your score at the end.</button>
+        <button class="game" aria-pressed="false" data-g="quiz"><h3 class="fun">Quiz</h3>Test what you learned. Pick a deck, Types of Research or Do’s and Don’ts in Research Writing, and see your score at the end.</button>
         <button class="game" aria-pressed="true" data-g="activity"><h3 class="fun">Activity</h3>Write your research paper section by section. Follow the guided steps and type your draft beside them.</button>
       </div>
 
@@ -228,6 +236,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
       <!-- Quiz deck -->
       <section class="deck hidden" id="quiz" aria-label="Quiz deck">
+        <div class="decks" id="decks" role="group" aria-label="Choose a deck"></div>
         <div class="deckhead">
           <div>
             <h2 class="fun" id="deck-title">Research Time!</h2>
@@ -278,6 +287,13 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
         <button class="ghost" id="c-no" type="button">No, keep it</button>
         <button class="studybtn" id="c-yes" type="button">Yes, delete</button>
       </div>
+    </div>
+  </div>
+  <!-- Course complete -->
+  <div class="modal hidden" id="congrats" role="alertdialog" aria-modal="true" aria-describedby="g-d">
+    <div class="mbox cong">
+      <p id="g-d">Congratulations for completing the Writing Course! You are now ready to write your Research Paper, goodluck!</p>
+      <div class="mrow"><button class="studybtn" id="g-ok" type="button">Close</button></div>
     </div>
   </div>
 <script>
@@ -525,7 +541,7 @@ const DATA = {
       ],
     ]],
 
-    ['Rationale', [
+    ['Process Flowchart', [
       [
         ['Define the Process to be Diagrammed', 'Write its title at the top of the work surface.'],
         ['Determine the Process’s Scope and Boundaries', 'Where or when does the process start? Where or when does it end? Determine how much detail to include in the diagram.'],
@@ -571,8 +587,164 @@ const DATA = {
       ],
     ]],
   ],
-  'Results Writing': ['Presentation of Results (tables, figures, and graph)', 'Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
-  'Discussion Writing': ['Interpretation', 'Implications', 'Limitations', 'Future Work'].map((n) => [n, gen(1)]),
+  'Results Writing': [
+    ['Presentation of Results (tables, figures, and graph)', [
+      [
+        ['Choose the Right Format: Text, Table, or Figure', [
+          'Text: Use for simple results, small amounts of data (4 or fewer data points), or to state main highlights. Avoid repeating every number from a table in the text.',
+          'Tables: Use when you need to show exact numerical values, specific categories, or a large amount of detailed data in a compact space.',
+          'Figures / Graphs: Use to illustrate trends, patterns, shapes, or relationships across data over time.',
+        ]],
+        ['Using Tables', [
+          'Title & Numbering: Place the table number and a clear, descriptive title above the table (e.g., Table 1: Participant Demographics by Group).',
+          'Structure & Readability:',
+          [
+            'Keep the design clean; omit vertical gridlines and keep horizontal lines minimal.',
+            'Put independent variables in rows and dependent variables in columns, or organize logically for comparison.',
+            'Place familiar or group labels on the left and new or important data on the right.',
+          ],
+          'Labels & Notes: Define all abbreviations, units of measurement, and statistical symbols (like (p)-values or standard deviations) in a footnote below the table.',
+          'Text Integration: Introduce every table in the body text before it appears (e.g., “As shown in Table 1…”). Highlight the key takeaway rather than listing every cell.',
+        ]],
+        ['Using Figures and Graphs', [
+          'Title & Numbering: Place the figure number and caption below the figure (e.g., Figure 1: Mean test scores over a 6-week period).',
+          'Selecting the Right Graph Type:',
+          [
+            'Line graphs: Show results of change or trends over time.',
+            'Bar graphs: Compare discrete categories or groups.',
+            'Histograms / Boxplots: Display continuous frequency distributions, medians, and quartiles.',
+            'Scatter plots: Show correlations or relationships between two numerical variables.',
+            'Pie charts: Represent proportions or parts-to-whole (best kept to 5–7 categories max).',
+          ],
+          'Design & Clarity:',
+          [
+            'Clearly label all axes, including units of measurement (e.g., Time (hours), Temperature (°C)).',
+            'Maintain uniform scales and avoid distorted or misleading axes (e.g., starting a bar graph at a non-zero value unless explicitly noted).',
+            'Use a clear legend if multiple lines, colors, or symbols are used.',
+          ],
+          'Self-Containment: A reader should be able to understand the figure and its basic message just by looking at it and reading its caption, without hunting through the entire paper.',
+        ]],
+        ['Reminders', [
+          'Sequence: Number your tables and figures consecutively in the exact order they are first mentioned in your text (Table 1, Table 2; Figure 1, Figure 2).',
+          'Complement, Don’t Duplicate: Use the text to discuss what the data means, while letting the table or graph show the actual numbers or pattern.',
+          'Follow Guidelines: Always check your target journal’s style guide or university thesis handbook for specific formatting, font size, and layout rules. You can review structural tips via the Ref-N-Write Guide on Figures and Tables or general data design advice from Stats ASD Presenting Results.',
+        ]],
+      ],
+    ]],
+    ...['Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
+  ],
+  'Discussion Writing': [
+    ['Conclusion', [
+      [
+        ['Restate the Problem', 'The first step of your conclusion is to restate your research problem, the issue your study set out to address. This reminds the reader why the research matters and gives the conclusion a clear starting point.', 'Avoid starting your conclusion with phrases like “In conclusion” or “To conclude,” as these are redundant. The content and placement of your conclusion already tell the reader it is the end of the paper.'],
+        ['Sum Up the Paper', 'Having restated the problem, summarize how the body of your paper addressed it and what conclusions your approach led to. Do not introduce new evidence here; instead, synthesize your main arguments or findings into a short, clear statement.'],
+      ],
+      [
+        ['Discuss the Implications', 'Having summed up your main arguments or findings, the conclusion ends by considering the broader implications of your research. This means expanding the scope of your discussion to wider fields or applications.',
+          [
+            'Practical implications: how the findings could be used in real-world settings.',
+            'Recommendations: a call for action or suggestions for future research.',
+            'A forward-looking note: suggest how you or others can build on your work.',
+          ]],
+      ],
+    ]],
+
+    ['Summary of Findings', [
+      [
+        ['Start with an Introduction', 'Briefly state the overarching purpose of the study, the general methodology used, and a short overview of the main findings. Keep specific numbers (e.g., sample sizes, percentages) in your results section.'],
+        ['Align with Research Questions', 'Go through your research questions or hypotheses one at a time and state whether the data supported each one. Present the findings in the same order as your questions so the summary is easy to follow.'],
+        ['Present Factual Data', 'Summarize the most notable results using key numbers, patterns, and trends. Stick to facts, save interpretation for the discussion, and use consistent wording for variables and measurements.'],
+        ['Reminders', [
+          'Use past tense when reporting what you found.',
+          'Include all results, including those that did not support your hypothesis.',
+          'Keep each finding to one or two sentences and avoid repeating full tables.',
+        ]],
+      ],
+    ]],
+
+    ['Recommendation', [
+      [
+        ['Derive from Conclusions', 'Base every recommendation on a specific finding or conclusion of your study. If you cannot point to the evidence behind it, leave it out.'],
+        ['Use a Structured Format', 'Build each point to cover who needs to do what, when, and with what resources.', ['Action + Actor + Timeline / Resources']],
+        ['Categorize Your Recommendations', 'Split your recommendations by who will act on them:',
+          [
+            'Practical / Real-World Recommendations: Suggestions for practitioners, institutions, or policymakers.',
+            'Future Research Recommendations: Suggestions for future researchers, such as testing different settings or populations, or using other methods or larger samples.',
+          ]],
+        ['Prioritize and Refine', 'Order your suggestions by impact and feasibility, putting the most important ones first. Use clear, direct language (for example, “should” or “is recommended”) and cut anything vague.'],
+      ],
+    ]],
+
+    ['Bibliography', [
+      [
+        ['Collect Source Information', 'As you research, keep track of the details of every source you use:',
+          [
+            'Author(s) or editor(s)',
+            'Title of the book, article, or webpage',
+            'Date of publication',
+            'Publisher or name of the journal',
+            'Volume, issue, and page numbers (for articles)',
+            'URL or DOI (for online sources)',
+          ]],
+        ['Choose a Citation Style', 'Check with your teacher, professor, or publisher to find out which style is required. Common styles are:',
+          [
+            'APA (American Psychological Association): commonly used in the social sciences and education.',
+            'MLA (Modern Language Association): used in the humanities and literature.',
+            'Chicago / Turabian: commonly used in history and religion.',
+          ]],
+      ],
+      [
+        ['Format Entries', [
+          'Alphabetical Order: Arrange your entries alphabetically by the author’s last name.',
+          'Hanging Indent: Indent every line after the first line of each entry (the first line stays flush left).',
+          'Spacing: Double-spacing or single-spacing depends on your specific style guide requirements.',
+          'In-Text Citations: Make sure every source in your bibliography is cited in the body of your research paper.',
+        ]],
+      ],
+    ]],
+
+    ['Acknowledgment', [
+      [
+        ['Structure and Order Your Acknowledgement', [
+          'Academic Support and Mentors: Thank your supervisor or adviser first, then committee members and teachers who guided your work.',
+          'Funding and Grants: Acknowledge any organizations, scholarships, or grants that funded the study, including grant numbers if applicable.',
+          'Peers and Collaborators: Thank colleagues, lab mates, and others who helped with data collection, analysis, or feedback.',
+          'Technical and Facility Support: Mention libraries, laboratories, or staff who provided access to equipment, archives, or software.',
+          'AI Tools: If you used AI tools to help with drafting or editing, disclose this according to your institution’s policy.',
+          'Personal Support: Finally, thank family, friends, or loved ones for their encouragement.',
+        ]],
+      ],
+      [
+        ['Reminders', [
+          'Be Specific: State how each person helped instead of writing only a general “thank you.”',
+          'Keep It Brief: Aim for one page or less.',
+          'Keep It Professional: Use a respectful, sincere tone and avoid overly emotional language.',
+          'Check Guidelines: Always check your school’s or journal’s guidelines for the placement, length, and format of the acknowledgments page.',
+        ]],
+      ],
+    ]],
+
+    ['Appendix', [
+      [
+        ['Identify What Belongs', [
+          'Include supplementary materials that support your research but would interrupt the flow of the main text.',
+          'Common items: raw data tables, survey questionnaires, interview guides, consent forms, transcripts, and extra figures.',
+          'Detailed technical information, such as long calculations or protocols, also belongs here.',
+          'If information is necessary for understanding your main argument, keep it in the body instead.',
+        ]],
+        ['Format and Label Each Appendix', [
+          'Start each appendix on a new page and label it with a letter or number: Appendix A, Appendix B (or Appendix 1, Appendix 2).',
+          'Give each appendix a short, descriptive title.',
+          'Number tables and figures inside appendices with the appendix letter (e.g., Table A1, Figure B2).',
+          'If you have only one appendix, simply call it “Appendix.”',
+          'Place appendices after the reference list, in the order they are first mentioned in the text.',
+          'List all appendices with their titles and page numbers in the table of contents.',
+        ]],
+        ['Reference Them in the Main Text', 'Mention each appendix in the body of your paper at the point where it is relevant (e.g., “see Appendix A”). Your main text should still make sense without them, so readers do not need to open an appendix to follow your argument.'],
+      ],
+    ]],
+    ...['Interpretation', 'Implications', 'Limitations', 'Future Work'].map((n) => [n, gen(1)]),
+  ],
 };
 
 /* =====================================================
@@ -625,6 +797,8 @@ const stageDone = (s, i) => {
   const c = checks[`${s}-${i}`] || [];
   return stepsOf(s, i).every((_, j) => c[j]);
 };
+
+const allDone = () => SECTIONS.every((sec, si) => sec.every((_, i) => stageDone(si, i)));
 
 function updateDone() {
   $$('.nums button').forEach((b) => b.classList.toggle('done', stageDone(+b.dataset.s, +b.dataset.i)));
@@ -717,8 +891,10 @@ $('#steps').addEventListener('change', (e) => {
   const cb = e.target.closest('input[type=checkbox]');
   if (!cb) return;
   const key = `${cur.s}-${cur.i}`;
+  const wasAll = allDone();
   (checks[key] || (checks[key] = []))[+cb.dataset.j] = cb.checked;
   saveChecks(); updateDone(); updatePill();
+  if (!wasAll && allDone()) showCongrats();
 });
 
 $('#write').addEventListener('input', (e) => { store[e.target.dataset.key] = e.target.value; saveDrafts(); });
@@ -781,35 +957,39 @@ document.addEventListener('keydown', (e) => {
    ===================================================== */
 const QL = 'Characteristics of Qualitative Research';
 const QN = 'Characteristics of Quantitative Research';
+const QM = 'Characteristics of Mixed Method Research';
 const RES3 = ['Quantitative Research', 'Qualitative Research', 'Mixed Method Research'];
 
 // Q(question, options, correct index OR array of indexes for "select all", optional heading)
 // **text** = highlighted. The correct answer is listed first; options are shuffled in study mode.
-const Q = (q, opts, a = 0, h) => ({ q, opts, a, h });
+const Q = (q, opts, a = 0, h, fixed = false) => ({ q, opts, a, h, fixed });
+// DO or DON’T card: two fixed options, doIt = true when the statement is something to DO
+const DD = (stmt, doIt, h) => Q('**DO or DON’T?** ' + stmt, ['DO', 'DON’T'], doIt ? 0 : 1, h, true);
 
-const QUIZ = {
-  title: 'Research Time!',
+const TYPES = {
+  title: 'Types of Research',
+  perfect: 'Perfect score! You know your types of research.',
   cards: [
     Q('“It is a **systematic and disciplined investigation** designed to discover, interpret, and revise facts, theories, or practical applications. By combining structured methodologies with empirical data or critical analysis, it moves beyond mere information-gathering to establish new insights and validate existing knowledge.” Based on what you studied from the website, what does this definition refer to?', ['Research', 'Quantitative Research', 'Qualitative Research', 'Mixed Method Research']),
     Q('This type of research mainly focuses on gathering participants’ experiences, perceptions, and behavior.', ['Qualitative Research', 'Quantitative Research', 'Mixed Method Research']),
-    Q('What question or questions the Qualitative Research answers?', ['“How?” and “Why?”', '“How?” only', '“How Many?” only', '“Why?” only', '“How Much?” only', '“How Many?” and “How Much?”']),
+    Q('What question or questions does Qualitative Research answer?', ['“How?” and “Why?”', '“How?” only', '“How Many?” only', '“Why?” only', '“How Much?” only', '“How Many?” and “How Much?”']),
     Q('It is a type of Research approach that collects and analyzes non-numerical data to understand concepts, opinions, or experiences.', ['Qualitative Research', 'Quantitative Research', 'Mixed Method Research']),
 
-    Q('This characteristic of Qualitative Research enables it to be subject to interference, impressions, and an inductive form of reasoning. This identifies pattern and assumptions for a group or sample.', ['Interpretative', 'Naturalistic', 'Socially Constructed Reality', 'Emic Perspective', 'Primacy of Subject Matter', 'Reflexivity'], 0, QL),
+    Q('This characteristic of Qualitative Research enables it to be subject to inference, impressions, and an inductive form of reasoning. This identifies pattern and assumptions for a group or sample.', ['Interpretative', 'Naturalistic', 'Socially Constructed Reality', 'Emic Perspective', 'Primacy of Subject Matter', 'Reflexivity'], 0, QL),
     Q('This characteristic in Qualitative Research means the study was conducted in a field or setting where participants live, work, and play rather than an artificial or controlled environment.', ['Naturalistic', 'Reflexivity', 'Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Primacy of Subject Matter'], 0, QL),
     Q('This characteristic emphasizes the importance of studying individuals in their natural environment to gain authentic insights into their experiences and behaviors.', ['Naturalistic Setting', 'Naturalistic', 'Primacy of Subject Matter', 'Interpretative Analysis', 'Socially Constructed Reality', 'Emic Perspective'], 0, QL),
     Q('This characteristic helps define human behaviors and experiences are complex and influenced by multiple interrelated factors that cannot be easily isolated and measured quantitatively.', ['Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Socially Constructed Reality', 'Emic Perspective', 'Primacy of Subject Matter'], 0, QL),
     Q('This highlights the subjective nature of qualitative research given that the data gathered are non-numerical and mainly revolving on human behaviors and experiences, and that the role of researchers are necessary in explaining the collected data.', ['Interpretative Analysis', 'Reflexivity', 'Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Socially Constructed Reality'], 0, QL),
     Q('This refers to how researchers’ own thoughts, feelings, and behaviors interact with the research site and the research itself.', ['Reflexivity', 'Naturalistic', 'Interpretative', 'Complex and Interwoven Variables', 'Emic Perspective', 'Primacy of Subject Matter'], 0, QL),
-    Q('This characteristic states that the reality if subjective and is different between each individual based on their social context as it is constantly created and shared through interactions and culture.', ['Socially Constructed Reality', 'Interpretative', 'Emic Perspective', 'Complex and Interwoven Variables', 'Interpretative Analysis', 'Naturalistic Setting'], 0, QL),
+    Q('This characteristic states that the reality is subjective and is different between each individual based on their social context as it is constantly created and shared through interactions and culture.', ['Socially Constructed Reality', 'Interpretative', 'Emic Perspective', 'Complex and Interwoven Variables', 'Interpretative Analysis', 'Naturalistic Setting'], 0, QL),
     Q('This characteristic focuses and emphasizes on understanding the experiences of the individuals or participants rather than testing hypotheses and using standard statistical framework.', ['Primacy of Subject Matter', 'Emic Perspective', 'Naturalistic Setting', 'Complex and Interwoven Variables', 'Interpretative Analysis', 'Interpretative'], 0, QL),
     Q('This characteristic focuses on understanding the topic, field, or phenomenon being studied through the lens of the participants, capturing their interpretations and meanings.', ['Emic Perspective', 'Primacy of Subject Matter', 'Naturalistic Setting', 'Socially Constructed Reality', 'Complex and Interwoven Variables', 'Reflexivity'], 0, QL),
 
     Q('This type of research approach utilizes numerical data to present evidences and information of a study.', RES3),
     Q('It is a structured and an empirical approach that tests hypotheses and examines relationships, patterns, and trends between variables involved. What type of research approach is this?', RES3),
-    Q('Which among the choices does the Quantitative Research answers?', ['“How Many?” and “How Much?”', '“Why?” only', '“How Many?” only', '“How?” and “Why?”', '“How?” only', '“How Much?” only']),
-    Q('As mentioned in the website, what are the three designs that the Quantitative Research can be used for? (Select all that applies.)', ['Descriptive', 'Correlational', 'Experimental', 'Phenomological', 'Ethnographic', 'Grounded', 'Case'], [0, 1, 2]),
-    Q('This type of Quantitative Research design is systematic in nature that collects, measures, and analyzes data in order to provide interpretation of hat the study focuses on.', ['Descriptive Quantitative Research', 'Quantitative Correlational', 'Quantitative Experimental Research']),
+    Q('Which among the choices does Quantitative Research answer?', ['“How Many?” and “How Much?”', '“Why?” only', '“How Many?” only', '“How?” and “Why?”', '“How?” only', '“How Much?” only']),
+    Q('As mentioned in the website, what are the three designs that the Quantitative Research can be used for? (Select all that apply.)', ['Descriptive', 'Correlational', 'Experimental', 'Phenomenological', 'Ethnographic', 'Grounded', 'Case'], [0, 1, 2]),
+    Q('This type of Quantitative Research design is systematic in nature that collects, measures, and analyzes data in order to provide interpretation of what the study focuses on.', ['Descriptive Quantitative Research', 'Quantitative Correlational', 'Quantitative Experimental Research']),
     Q('It is a type of Quantitative Research design wherein researchers do not manipulate any variable involved in the study, instead, they let it naturally occur and analyzes the data collected using statistical methods.', ['Quantitative Correlational Research', 'Descriptive Quantitative Research', 'Quantitative Experimental Research']),
     Q('This states that the Quantitative Research relies heavily on factual, measurable data rather than personal opinions and interpretations.', ['Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Sampling', 'Numerical Data', 'Replication'], 0, QN),
     Q('This characteristic shows what Quantitative Research must have to be able to collect data in numerical form.', ['Measurable Variables', 'Objective', 'Structured Standard Instruments', 'Sampling', 'Numerical Data', 'Replication'], 0, QN),
@@ -819,8 +999,28 @@ const QUIZ = {
     Q('This characteristic helps validate and ensure that the results would be accurate and impartial by repeated execution of study through various settings.', ['Replication', 'Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Sampling', 'Numerical Data'], 0, QN),
     Q('A type of research approach that combines both quantitative and qualitative research to address similar objectives. What type of research approach does this refer to?', ['Mixed Method Research', 'Qualitative Research', 'Quantitative Research']),
     Q('This research type helps in creating a more definite and complete picture of a discussion of information that uses both numerical data and interpretation, aiding in providing an expanded and deep explanation for complex or varied questions.', ['Mixed Method Research', 'Qualitative Research', 'Quantitative Research']),
+    Q('This type of research approach adopts a method of dealing with problems or research gaps in a more logical and realistic way that is best applicable in answering the research questions.', ['Mixed Method Research', 'Qualitative Research', 'Quantitative Research']),
+
+    Q('This is the core defining characteristic of Mixed Method Research that combines both qualitative and quantitative data.', ['Integration', 'Triangulation', 'Complementarity', 'Development', 'Initiation', 'Expansion', 'Timing'], 0, QM),
+    Q('This characteristic supports the validation of results and enhances confidence in the ability to present accurate evidence and results.', ['Triangulation', 'Integration', 'Complementarity', 'Development', 'Initiation', 'Expansion', 'Timing'], 0, QM),
+    Q('This characteristic enables one approach’s data to be interpreted, enhanced, or clarified by the other approach.', ['Complementarity', 'Integration', 'Triangulation', 'Development', 'Initiation', 'Expansion', 'Timing'], 0, QM),
+    Q('This characteristic presents that the combination of methods enables this approach to develop or build the results or discussion of one method from another method.', ['Development', 'Integration', 'Triangulation', 'Complementarity', 'Initiation', 'Expansion', 'Timing'], 0, QM),
+    Q('This characteristic enables a mixed method study to create or find more profound ideas or knowledge, as there are differences in the approaches combined in this study.', ['Initiation', 'Integration', 'Triangulation', 'Complementarity', 'Development', 'Expansion', 'Timing'], 0, QM),
+    Q('This characteristic describes this approach as a help in expanding or extending the scope and depth of the study due to the different methods involved.', ['Expansion', 'Integration', 'Triangulation', 'Complementarity', 'Development', 'Initiation', 'Timing'], 0, QM),
+    Q('This characteristic is necessary as it may affect the results produced due to the difference in the time the data are collected, which depends on the researchers and the necessity in fulfilling the study.', ['Timing', 'Integration', 'Triangulation', 'Complementarity', 'Development', 'Initiation', 'Expansion'], 0, QM),
   ],
 };
+
+const DOS = {
+  title: 'Do’s and Don’ts in Research Writing',
+  perfect: 'Perfect score! You know the do’s and don’ts of research writing.',
+  cards: [
+    // Questions coming soon
+  ],
+};
+
+const DECKS = [TYPES, DOS];
+let QUIZ = TYPES;
 
 const fmt = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>');
 const isMulti = (c) => Array.isArray(c.a);
@@ -835,12 +1035,23 @@ const shuffle = (arr) => {
 };
 let qs = { i: 0, score: 0 };
 
+function renderDecks() {
+  $('#decks').innerHTML = DECKS.map((d, k) => `<button type="button" data-k="${k}" aria-pressed="${d === QUIZ}">${esc(d.title)} (${d.cards.length})</button>`).join('');
+  $$('#decks button').forEach((b) => b.onclick = () => {
+    QUIZ = DECKS[+b.dataset.k];
+    showStudy(false);
+    renderDecks();
+    renderDeck();
+  });
+}
+
 function renderDeck() {
   const n = QUIZ.cards.length;
   $('#deck-title').textContent = QUIZ.title;
   $('#deck-sub').textContent = `Deck · ${n} card${n === 1 ? '' : 's'}`;
   $('#cards-h').textContent = `Cards (${n})`;
-  $('#cards').innerHTML = QUIZ.cards.map((c) => {
+  $('#study-btn').classList.toggle('hidden', !n);
+  $('#cards').innerHTML = !n ? '<p class="deck-sub">No cards in this deck yet.</p>' : QUIZ.cards.map((c) => {
     const ans = answersOf(c);
     return `
       <article class="qcard">
@@ -857,10 +1068,11 @@ function renderDeck() {
 function showStudy(on) {
   $('#materials').classList.toggle('hidden', on);
   $('#study').classList.toggle('hidden', !on);
-  $('#study-btn').classList.toggle('hidden', on);
+  $('#study-btn').classList.toggle('hidden', on || !QUIZ.cards.length);
 }
 
 function startStudy() {
+  if (!QUIZ.cards.length) return;
   qs = { i: 0, score: 0 };
   showStudy(true);
   renderQ();
@@ -874,7 +1086,7 @@ function renderQ() {
     box.innerHTML = `
       <div class="sq score">
         <p class="big">${qs.score}/${n}</p>
-        <p>${qs.score === n ? 'Perfect score! You know your research basics.' : 'Nice try! Review the deck and give it another go.'}</p>
+        <p>${qs.score === n ? QUIZ.perfect : 'Nice try! Review the deck and give it another go.'}</p>
         <div class="row"><button class="studybtn" id="s-retry">Try again</button><button class="ghost" id="s-back">Back to deck</button></div>
       </div>`;
     $('#s-retry').onclick = startStudy;
@@ -892,7 +1104,7 @@ function renderQ() {
       </div>
       ${c.h ? `<p class="sh">${esc(c.h)}</p>` : ''}
       <p class="qt">${fmt(c.q)}</p>
-      <div class="opts">${shuffle(c.opts.map((_, k) => k)).map((k) =>
+      <div class="opts">${(c.fixed ? c.opts.map((_, k) => k) : shuffle(c.opts.map((_, k) => k))).map((k) =>
         `<button class="opt" data-k="${k}"${multi ? ' aria-pressed="false"' : ''}>${esc(c.opts[k])}</button>`).join('')}</div>
       <div class="sfoot">${multi
         ? '<span class="fb">Select all that apply.</span><button class="studybtn" id="s-check">Check answer</button>'
@@ -938,6 +1150,7 @@ function grade(picked) {
 }
 
 $('#study-btn').onclick = startStudy;
+renderDecks();
 renderDeck();
 
 /* =====================================================
@@ -988,6 +1201,27 @@ $('#courses').addEventListener('click', (e) => {
   const head = $$('.acc .head')[si];
   if (head.getAttribute('aria-expanded') !== 'true') head.click();
   head.scrollIntoView({ block: 'start' });
+});
+
+/* =====================================================
+   Course-complete pop-up
+   ===================================================== */
+let congratsFocus = null;
+function showCongrats() {
+  congratsFocus = document.activeElement;
+  $('#congrats').classList.remove('hidden');
+  $('#g-ok').focus();
+}
+function closeCongrats() {
+  $('#congrats').classList.add('hidden');
+  if (congratsFocus && congratsFocus.focus) congratsFocus.focus();
+}
+$('#g-ok').onclick = closeCongrats;
+$('#congrats').addEventListener('click', (e) => { if (e.target.id === 'congrats') closeCongrats(); });
+document.addEventListener('keydown', (e) => {
+  if ($('#congrats').classList.contains('hidden')) return;
+  if (e.key === 'Escape') closeCongrats();
+  if (e.key === 'Tab') { e.preventDefault(); $('#g-ok').focus(); }
 });
 </script>
 
