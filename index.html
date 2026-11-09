@@ -610,7 +610,7 @@ const DATA = {
           'Title & Numbering: Place the figure number and caption below the figure (e.g., Figure 1: Mean test scores over a 6-week period).',
           'Selecting the Right Graph Type:',
           [
-            'Line graphs: Show results of change or trends over time.',
+            'Line graphs: Show rates of change or trends over time.',
             'Bar graphs: Compare discrete categories or groups.',
             'Histograms / Boxplots: Display continuous frequency distributions, medians, and quartiles.',
             'Scatter plots: Show correlations or relationships between two numerical variables.',
@@ -627,99 +627,102 @@ const DATA = {
         ['Reminders', [
           'Sequence: Number your tables and figures consecutively in the exact order they are first mentioned in your text (Table 1, Table 2; Figure 1, Figure 2).',
           'Complement, Don’t Duplicate: Use the text to discuss what the data means, while letting the table or graph show the actual numbers or pattern.',
-          'Follow Guidelines: Always check your target journal’s style guide or university thesis handbook for specific formatting, font size, and layout rules. You can review structural tips via the Ref-N-Write Guide on Figures and Tables or general data design advice from Stats ASD Presenting Results.',
+          'Follow Guidelines: Always check your target journal’s style guide or university thesis handbook for specific formatting, font size, and placement rules. You can review structural tips via the Ref-N-Write Guide on Figures and Tables or general data design advice from Stats4SD Presenting Results.',
         ]],
       ],
     ]],
-    ...['Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
   ],
   'Discussion Writing': [
     ['Conclusion', [
       [
-        ['Restate the Problem', 'The first step of your conclusion is to restate your research problem, the issue your study set out to address. This reminds the reader why the research matters and gives the conclusion a clear starting point.', 'Avoid starting your conclusion with phrases like “In conclusion” or “To conclude,” as these are redundant. The content and placement of your conclusion already tell the reader it is the end of the paper.'],
-        ['Sum Up the Paper', 'Having restated the problem, summarize how the body of your paper addressed it and what conclusions your approach led to. Do not introduce new evidence here; instead, synthesize your main arguments or findings into a short, clear statement.'],
+        ['Restate the Problem',
+          'The first task of your conclusion is to remind the reader of your research problem. You will have discussed this problem in depth throughout the body, but now the point is to zoom back out from the details to the bigger picture.',
+          'While you are restating a problem you’ve already introduced, you should avoid phrasing it identically to how it appeared in the introduction. Ideally, you’ll find a novel way to circle back to the problem from the more detailed ideas discussed in the body.',
+          'Avoid starting your conclusion with phrases like “In conclusion” or “To conclude,” as this can come across as too obvious and make your writing seem unsophisticated. The content and placement of your conclusion should make its function clear without the need for additional signposting.'],
+        ['Sum Up the Paper', 'Having zoomed back in on the problem, it’s time to summarize how the body of the paper went about addressing it, and what conclusions this approach led to. Depending on the nature of your research paper, this might mean restating your thesis and arguments, or summarizing your overall findings.'],
       ],
       [
-        ['Discuss the Implications', 'Having summed up your main arguments or findings, the conclusion ends by considering the broader implications of your research. This means expanding the scope of your discussion to wider fields or applications.',
-          [
-            'Practical implications: how the findings could be used in real-world settings.',
-            'Recommendations: a call for action or suggestions for future research.',
-            'A forward-looking note: suggest how you or others can build on your work.',
-          ]],
+        ['Discuss the Implications',
+          'Having summed up your key arguments or findings, the conclusion ends by considering the broader implications of your research. This means expressing the key takeaways, practical or theoretical, from your paper—often in the form of a call for action or suggestions for future research.',
+          'Empirical paper: Future research directions',
+          'In a more empirical paper, you can close by either making recommendations for practice (for example, in clinical or policy papers), or suggesting directions for future research.',
+          'Whatever the scope of your own research, there will always be room for further investigation of related topics, and you’ll often discover new questions and problems during the research process.',
+          'Finish your paper on a forward-looking note by suggesting how you or other researchers might build on this topic in the future and address any limitations of the current paper.'],
       ],
     ]],
 
     ['Summary of Findings', [
       [
-        ['Start with an Introduction', 'Briefly state the overarching purpose of the study, the general methodology used, and a short overview of the main findings. Keep specific numbers (e.g., sample sizes, percentages) in your results section.'],
-        ['Align with Research Questions', 'Go through your research questions or hypotheses one at a time and state whether the data supported each one. Present the findings in the same order as your questions so the summary is easy to follow.'],
-        ['Present Factual Data', 'Summarize the most notable results using key numbers, patterns, and trends. Stick to facts, save interpretation for the discussion, and use consistent wording for variables and measurements.'],
+        ['Start with an Introduction', 'Briefly state the overarching purpose of the study, the general methodology used, and the key tools or statistical tests applied (e.g., mean, percentage, or t-tests).'],
+        ['Align with Research Questions', 'Go through your research questions or hypotheses chronologically. Dedicate a separate paragraph or bullet point to each specific question.'],
+      ],
+      [
+        ['Present Factual Data', 'Summarize the actual results using simple, non-statistical language combined with key numbers, percentages, or metrics. Avoid adding deep personal interpretations or opinions here—save that for the Discussion or Conclusion section.'],
         ['Reminders', [
-          'Use past tense when reporting what you found.',
-          'Include all results, including those that did not support your hypothesis.',
-          'Keep each finding to one or two sentences and avoid repeating full tables.',
+          'Use Past Tense: Write your findings using the past tense because the data collection and analysis have already happened.',
+          'Include All Results: Do not ignore negative or unexpected results; present a complete and honest picture of what the data showed.',
         ]],
       ],
     ]],
 
     ['Recommendation', [
       [
-        ['Derive from Conclusions', 'Base every recommendation on a specific finding or conclusion of your study. If you cannot point to the evidence behind it, leave it out.'],
-        ['Use a Structured Format', 'Build each point to cover who needs to do what, when, and with what resources.', ['Action + Actor + Timeline / Resources']],
-        ['Categorize Your Recommendations', 'Split your recommendations by who will act on them:',
+        ['Derive from Conclusion', 'Review your study’s conclusions and research question first. Do not recommend anything that is unsupported by your data or analysis.'],
+        ['Use a Structured Format', 'Build each point to cover who needs to do what, why they should do it, and how it solves the problem discovered in your research.', ['Audience → Action → Rationale/Context']],
+        ['Categorize Your Recommendations', 'Split them into two logical groups if needed:',
           [
-            'Practical / Real-World Recommendations: Suggestions for practitioners, institutions, or policymakers.',
-            'Future Research Recommendations: Suggestions for future researchers, such as testing different settings or populations, or using other methods or larger samples.',
+            'Practical / Real-World Recommendations: Actions for organizations, practitioners, or decision-makers.',
+            'Future Research Recommendations: Suggestions for other researchers to expand sample sizes, test different settings, or address limitations you faced.',
           ]],
-        ['Prioritize and Refine', 'Order your suggestions by impact and feasibility, putting the most important ones first. Use clear, direct language (for example, “should” or “is recommended”) and cut anything vague.'],
+        ['Prioritize and Refine', 'Order your suggestions by impact and feasibility (putting the most important and easiest-to-implement ideas first). Keep the language concise, direct, and diplomatic.'],
       ],
     ]],
 
     ['Bibliography', [
       [
-        ['Collect Source Information', 'As you research, keep track of the details of every source you use:',
+        ['Collect Source Information', 'As you research, keep track of essential details for every source you use:',
           [
-            'Author(s) or editor(s)',
+            'Author(s) or Editor(s) name',
             'Title of the book, article, or webpage',
             'Date of publication',
-            'Publisher or name of the journal',
-            'Volume, issue, and page numbers (for articles)',
+            'Publisher or name of the journal/website',
+            'Volume, issue, and page numbers (for articles and books)',
             'URL or DOI (for online sources)',
           ]],
-        ['Choose a Citation Style', 'Check with your teacher, professor, or publisher to find out which style is required. Common styles are:',
+        ['Choose a Citation Style', 'Check with your teacher, professor, or publisher to know which format you need:',
           [
-            'APA (American Psychological Association): commonly used in the social sciences and education.',
-            'MLA (Modern Language Association): used in the humanities and literature.',
-            'Chicago / Turabian: commonly used in history and religion.',
+            'APA (American Psychological Association): Commonly used in social sciences and sciences; usually titled References.',
+            'MLA (Modern Language Association): Commonly used in humanities and literature; usually titled Works Cited.',
+            'Chicago / Turabian: Commonly used in history and religion.',
           ]],
       ],
       [
         ['Format Entries', [
-          'Alphabetical Order: Arrange your entries alphabetically by the author’s last name.',
-          'Hanging Indent: Indent every line after the first line of each entry (the first line stays flush left).',
-          'Spacing: Double-spacing or single-spacing depends on your specific style guide requirements.',
-          'In-Text Citations: Make sure every source in your bibliography is cited in the body of your research paper.',
+          'Alphabetical Order: Arrange your entries alphabetically by the author’s last name (or by the title if there is no author).',
+          'Indentation: Use a hanging indent (the first line of each entry starts at the left margin, and subsequent lines are indented).',
+          'Spacing: Double-space your list depending on your specific style guide requirements.',
+          'In-Text Citations: Make sure every source in your bibliography matches an in-text citation or footnote inside your research paper.',
         ]],
       ],
     ]],
 
-    ['Acknowledgment', [
+    ['Acknowledgement', [
       [
         ['Structure and Order Your Acknowledgement', [
-          'Academic Support and Mentors: Thank your supervisor or adviser first, then committee members and teachers who guided your work.',
-          'Funding and Grants: Acknowledge any organizations, scholarships, or grants that funded the study, including grant numbers if applicable.',
-          'Peers and Collaborators: Thank colleagues, lab mates, and others who helped with data collection, analysis, or feedback.',
-          'Technical and Facility Support: Mention libraries, laboratories, or staff who provided access to equipment, archives, or software.',
-          'AI Tools: If you used AI tools to help with drafting or editing, disclose this according to your institution’s policy.',
-          'Personal Support: Finally, thank family, friends, or loved ones for their encouragement.',
+          'Academic Advisors and Mentors: Start with your primary supervisor, thesis advisor, or committee members who guided the research.',
+          'Funding and Grants: Acknowledge any organizations, scholarships, or government bodies that provided financial backing, complete with grant numbers if applicable.',
+          'Institutional and Technical Support: Mention laboratories, libraries, technicians, or staff who provided access to equipment, archives, or software.',
+          'Peers and Collaborators: Thank colleagues who offered constructive feedback, proofreading, data collection help, or critical discussions.',
+          'AI Tools or Software Disclosure: If you used generative AI (such as ChatGPT) for drafting assistance or editing, include a brief disclosure statement naming the tool and the task performed.',
+          'Personal Support (Theses/Dissertations only): Thank family, partners, or friends for emotional support. (Note: Short journal articles usually omit personal or family thanks.)',
         ]],
       ],
       [
         ['Reminders', [
-          'Be Specific: State how each person helped instead of writing only a general “thank you.”',
-          'Keep It Brief: Aim for one page or less.',
-          'Keep It Professional: Use a respectful, sincere tone and avoid overly emotional language.',
-          'Check Guidelines: Always check your school’s or journal’s guidelines for the placement, length, and format of the acknowledgments page.',
+          'Be Specific: State how each person helped (e.g., “for assistance with statistical analysis” or “for critical review of the manuscript”), rather than just listing names.',
+          'Keep a Professional Tone: Use polite, restrained, and clear academic language. Avoid overly casual slang, flowery language, or inside jokes.',
+          'Ask Permission: It is polite (and sometimes required by journals) to ask individuals before naming them, as an acknowledgement can imply they endorse your findings.',
+          'Check Guidelines: Always consult your target journal’s author guidelines or your university’s thesis handbook for strict word limits or required phrasing.',
         ]],
       ],
     ]],
@@ -727,23 +730,29 @@ const DATA = {
     ['Appendix', [
       [
         ['Identify What Belongs', [
-          'Include supplementary materials that support your research but would interrupt the flow of the main text.',
-          'Common items: raw data tables, survey questionnaires, interview guides, consent forms, transcripts, and extra figures.',
-          'Detailed technical information, such as long calculations or protocols, also belongs here.',
-          'If information is necessary for understanding your main argument, keep it in the body instead.',
+          'Include supplementary materials that support your research but are too large, detailed, or distracting to place in the main text.',
+          'Common items include: Survey/interview questionnaires, raw data or full datasets, extended statistical outputs, participant consent and ethics approval forms, detailed maps, or extra code and technical calculations.',
+          'Rule: If a piece of information is essential to understanding your core argument, it must stay in the main body of the paper.',
         ]],
         ['Format and Label Each Appendix', [
-          'Start each appendix on a new page and label it with a letter or number: Appendix A, Appendix B (or Appendix 1, Appendix 2).',
-          'Give each appendix a short, descriptive title.',
-          'Number tables and figures inside appendices with the appendix letter (e.g., Table A1, Figure B2).',
-          'If you have only one appendix, simply call it “Appendix.”',
-          'Place appendices after the reference list, in the order they are first mentioned in the text.',
-          'List all appendices with their titles and page numbers in the table of contents.',
+          'New Page: Start each new appendix on a fresh, separate page.',
+          'Labels & Titles:',
+          [
+            'If you have only one appendix, label it simply as Appendix.',
+            'If you have multiple appendices, assign them sequential capital letters (e.g., Appendix A, Appendix B) or numbers (Appendix 1, Appendix 2).',
+          ],
+          'Center and bold the label and descriptive title on separate lines at the top of the page (e.g., Appendix A / Survey Questionnaire).',
+          'Internal Elements: Number tables and figures within the appendix by combining the letter with a number (e.g., Table A1, Figure B2).',
+          'Placement: Place appendices after the reference list (and after footnotes or endnotes), unless your specific institutional or journal guidelines require them before the references.',
+          'Table of Contents: List all appendices by name and page number in your table of contents if your document has one.',
         ]],
-        ['Reference Them in the Main Text', 'Mention each appendix in the body of your paper at the point where it is relevant (e.g., “see Appendix A”). Your main text should still make sense without them, so readers do not need to open an appendix to follow your argument.'],
+      ],
+      [
+        ['Reference Them in the Main Text',
+          'You must mention every appendix at least once in the main text (e.g., “For a full breakdown of the survey questions, see Appendix A”).',
+          'Present the appendices in the exact order they are first mentioned in your text.'],
       ],
     ]],
-    ...['Interpretation', 'Implications', 'Limitations', 'Future Work'].map((n) => [n, gen(1)]),
   ],
 };
 
@@ -1181,8 +1190,8 @@ $$('.game').forEach((b) => b.onclick = () => {
 const COURSES = [
   ['Introduction', 'Set up your study. Explain the background, the problem, your hypothesis and why the research matters, from Background of the Study to Definition of Terms.'],
   ['Methodology', 'Describe how you will carry out the study: your input-process-output framework, materials, procedures, testing and statistical treatment.'],
-  ['Results', 'Present what you found. Organize your data into tables, figures and graphs, and point out the key patterns.'],
-  ['Discussion', 'Explain what the results mean. Interpret the findings, state their implications and limitations, and suggest future work.'],
+  ['Results', 'Present what you found. Choose between text, tables and figures, and present your data clearly with the right graph types and labels.'],
+  ['Discussion', 'Wrap up your paper. Write your conclusion, summarize your findings, give recommendations, and finish with the bibliography, acknowledgement and appendix.'],
 ];
 
 $('#courses').innerHTML = COURSES.map(([name, text], i) => `
