@@ -10,7 +10,7 @@
   --pink: #E94B9B; --pink-l: #F8E7EF;
   --yel: #F7E477; --yel-l: #FFF3D4;
   --green: #76C76B; --green-l: #E9F3DC;
-  --blue-d: #1B6F93; --pink-d: #B8306F; --green-d: #3B8A31;
+  --blue-d: #1B6F93; --pink-d: #B8306F; --green-d: #3B8A31; --violet-d: #5a3a8c;
   --line: #8a8a8a;
   --head: Orbitron, system-ui, sans-serif;
   --on-sky: #10222e; --on-yel: #2b2500;
@@ -20,7 +20,7 @@
     --page: #15181d; --ink: #eef2f6; --paper: #20252c;
     --sky: #2b6f8d; --sky-l: #1f3b48; --pink-l: #4a2438;
     --yel: #6b5f1f; --yel-l: #3f3a1f; --green-l: #2b3d27;
-    --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --line: #777;
+    --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --violet-d: #c3a8ff; --line: #777;
     --on-sky: #eef6fa; --on-yel: #fff3d4; color-scheme: dark;
   }
 }
@@ -28,7 +28,7 @@
   --page: #15181d; --ink: #eef2f6; --paper: #20252c;
   --sky: #2b6f8d; --sky-l: #1f3b48; --pink-l: #4a2438;
   --yel: #6b5f1f; --yel-l: #3f3a1f; --green-l: #2b3d27;
-  --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --line: #777;
+  --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --violet-d: #c3a8ff; --line: #777;
   --on-sky: #eef6fa; --on-yel: #fff3d4; color-scheme: dark;
 }
 
@@ -177,6 +177,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
 body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sky); }
 .steps, .qcard li, .opt, .step label { min-width: 0; overflow-wrap: anywhere; }
 
+
+/* ============ Writing tab (courses) ============ */
+.crumb { margin: 14px 0 6px; opacity: .75; }
+.courses { display: grid; gap: 18px; margin: 10px 0 20px; }
+.course { padding: 0 20px 20px; background: var(--pink-l); border-radius: 24px; text-align: center; }
+.course h2 { display: inline-block; margin: 0 0 12px; padding: 8px 24px; font-size: clamp(1.1rem, 4.5vw, 1.8rem); background: var(--yel); border-radius: 0 0 20px 20px; }
+.course p { max-width: 62ch; margin: 0 auto 14px; text-align: left; }
+.course .go { padding: 9px 20px; border: 0; border-radius: 99px; background: var(--pink); color: #fff; font: 700 12px var(--head); letter-spacing: .04em; }
+.course .go:hover { filter: brightness(.95); }
+.course[data-c="0"] h2 { color: var(--pink-d); }
+.course[data-c="1"] h2 { color: var(--blue-d); }
+.course[data-c="2"] h2 { color: var(--green-d); }
+.course[data-c="3"] h2 { color: var(--violet-d); }
 </style>
 <!-- Tabs -->
   <div class="tabs" role="tablist">
@@ -191,7 +204,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 
     <!-- Writing tab -->
     <section id="writing" class="hidden">
-      <p style="margin-top:24px">Switch to <b>Interactives</b> to try the writing activities. Aute proident ut dolor cillum in elit aliqua consequat.</p>
+      <p class="crumb">Courses</p>
+      <div class="courses" id="courses"></div>
     </section>
 
     <!-- Interactives tab -->
@@ -497,15 +511,15 @@ const DATA = {
   'Methodology Writing': [
     ['Input, Process, and Output', [
       [
-        ['Identify the Output', 'Firstly, you need to determine what output or dependent variable is relevant to your research question. For instance, if your research revolves around the effects of different types of fertilizer on plant growth, the output would be a measure of plant growth (such as height).'],
-        ['Pinpoint the Inputs', 'Visualize your output as the product of a machine. What ingredients need to be fed into this machine to generate the output? These elements are your inputs. In our example, the inputs would be the different types of fertilizer you intend to test. You can also include the amount of fertilizer used.'],
+        ['Identify the Output', 'Firstly, you need to determine what output or dependent variable is relevant to your research question. For instance, if your research revolves around the effects of different types of fertilizer on plant growth, your output would be a measure of plant growth (such as length).'],
+        ['Pinpoint the Inputs', 'Visualize your output as the product of a machine. What ingredients need to be fed into this machine to generate the output? These elements are your inputs. In our example, the inputs would be the different types of fertilizer you intend to test. You can also consider the amount of fertilizer added.'],
       ],
       [
-        ['Describe the Process', 'Next, you need to describe the process, which is the process that generates the output from the inputs. In your case, this would be the act of planting the seeds and applying different types of fertilizer.'],
-        ['Consolidate Everything Into a Figure', 'Finally, you should consolidate all the identified outputs, inputs, and processes into a single figure. The Input-Process-Output (IPO) conceptual framework. The process should be placed in the center of the figure, with the inputs on the left, and the output on the right.'],
+        ['Describe the Process', 'Next, you need to describe the machine, which is the process that generates the output from the inputs. In our given example, the process would be the act of planting the seeds and applying different types of fertilizer.'],
+        ['Consolidate Everything Into a Figure', 'Finally, you should consolidate all the identified outputs, inputs, and processes into a single figure. This figure is your Input-Process-Output (IPO) conceptual framework. The process should be placed in the center of the figure, with the inputs on the left, and the output on the right.'],
         ['Remember', [
           'The output or dependent variable is the result you aim to discover in your research.',
-          'The inputs are the elements you are manipulating or testing in your experiment.',
+          'The inputs are the elements that you are manipulating or testing in your experiment.',
           'The process is the method or steps you’re employing to obtain the output from the inputs.',
         ]],
       ],
@@ -520,8 +534,8 @@ const DATA = {
         ['When all activities are included and everyone agrees the sequence is correct, draw arrows to show the process’s flow.'],
       ],
       [
-        ['Review the Flowchart', 'Review it with the people involved in the process to see whether they agree the process is shown correctly. A good way to do this is to walk through the process.'],
-        ['Determine Whether the Flowchart is Correct', 'If so, you’re done. If not, return to step three and work through the steps again.'],
+        ['Review the Flowchart', 'Review it with the people involved in the process to see whether they agree the process is drawn accurately. A good way to do this is to walk through the process.'],
+        ['Determine Whether the Flowchart is Correct', 'If so, you’re done! If not, return to step three and work through the steps again.'],
       ],
     ]],
 
@@ -535,16 +549,16 @@ const DATA = {
 
     ['Procedures', [
       [
-        ['Identify the Main Steps in Your Procedure', 'Label the Main Steps with Arabic numerals (1, 2, 3) and briefly explain what is happening in this step. Ensure that every step of your procedure is included so that this will serve as a guide in your research output procedure.'],
-        ['Identify the Sub-Steps and Observe Proper Hierarchy', 'Insert your sub-parts under their respective main parts. Follow the correct hierarchy of indentation and labeling (a, b, c / i, ii, iii…). If there is no sub-part for it, then you may skip. Depending on your teacher and format.'],
+        ['Identify the Main Steps in Your Procedure', 'Label the Main Steps with (A/B/C/D) and briefly explain what is expected in this step. Ensure that every step of your procedure is included as this will also serve as a guide in your research output production.'],
+        ['Identify the Sub-Steps and Observe Proper Hierarchy', 'Insert your sub-parts under their respective main parts, follow the correct hierarchy of note-taking methods (A → 1. → a → bullet [ if there is no subpart for 1s, then proceed to using bullet. This part may vary depending on your Teacher and Format. ] )'],
         ['Double-check Your Procedures', 'Check whether you have listed everything precisely and accurately.'],
       ],
     ]],
 
     ['Testing Different Products', [
       [
-        ['State Your Set-ups and Testing Type', 'Briefly state your set-ups using a table and identify whether you’ll be conducting a non-standardized or standardized testing.'],
-        ['Explain the Process of Testings that Every Set-up Will Undergo', 'State the processes and objective of the testings. Specify what will be used, and where it will be done.'],
+        ['State Your Set-ups and Testing Type', 'Briefly state your Set-ups using a table and identify whether you’ll be conducting a non-standardized or standardized testing.'],
+        ['Explain the Process of Testings that Every Set-up Will Undergo', 'State the procedure and objective of the testings. Specify what will be used, and where it will be done.'],
         ['Double-check Your Testings', 'Check whether you have identified every testing precisely and accurately.'],
       ],
     ]],
@@ -552,12 +566,12 @@ const DATA = {
     ['Discussion of Statistical Treatment', [
       [
         ['Identify How the Results Will Be Collected', 'Describe how the results will be collected in each testing in all set-ups for every trial.'],
-        ['Identify the Statistical Treatment To Be Used', 'Determine your Statistical Treatment and explain how this will be used to interpret the results. Ensure that your Statistical Treatment is appropriate.'],
+        ['Identify the Statistical Treatment To Be Used', 'Determine your Statistical Treatment and explain how this will be used to interpret the results. Ensure that your Statistical Treatment is correct.'],
         ['Double-check Your Testings', 'Check whether you have identified everything precisely and accurately.'],
       ],
     ]],
   ],
-  'Results Writing': ['Summary of Findings', 'Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
+  'Results Writing': ['Presentation of Results (tables, figures, and graph)', 'Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
   'Discussion Writing': ['Interpretation', 'Implications', 'Limitations', 'Future Work'].map((n) => [n, gen(1)]),
 };
 
@@ -947,6 +961,34 @@ $$('.game').forEach((b) => b.onclick = () => {
   if (g === 'quiz') showStudy(false);
 });
 
+
+/* =====================================================
+   Writing tab: one card per paper section
+   ===================================================== */
+const COURSES = [
+  ['Introduction', 'Set up your study. Explain the background, the problem, your hypothesis and why the research matters, from Background of the Study to Definition of Terms.'],
+  ['Methodology', 'Describe how you will carry out the study: your input-process-output framework, materials, procedures, testing and statistical treatment.'],
+  ['Results', 'Present what you found. Organize your data into tables, figures and graphs, and point out the key patterns.'],
+  ['Discussion', 'Explain what the results mean. Interpret the findings, state their implications and limitations, and suggest future work.'],
+];
+
+$('#courses').innerHTML = COURSES.map(([name, text], i) => `
+  <article class="course" data-c="${i}">
+    <h2 class="fun">${esc(name)}</h2>
+    <p>${esc(text)}</p>
+    <button class="go" type="button" data-c="${i}">Start writing</button>
+  </article>`).join('');
+
+$('#courses').addEventListener('click', (e) => {
+  const btn = e.target.closest('.go');
+  if (!btn) return;
+  const si = +btn.dataset.c;
+  tab('interactives');
+  $('.game[data-g="activity"]').click();
+  const head = $$('.acc .head')[si];
+  if (head.getAttribute('aria-expanded') !== 'true') head.click();
+  head.scrollIntoView({ block: 'start' });
+});
 </script>
 
 </body></html>
