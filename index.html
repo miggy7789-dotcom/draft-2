@@ -1,474 +1,952 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Interactives – Activities</title>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Research Interactives</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{--page:#fff;--ink:#1f2a3d;--paper:#fff;
---sky:#70C9ED;--sky-l:#E5F5FA;--pink:#E94B9B;--pink-l:#F8E7EF;--yel:#F7E477;--yel-l:#FFF3D4;--green:#76C76B;--green-l:#E9F3DC;
---blue-d:#1B6F93;--pink-d:#B8306F;--green-d:#3B8A31;--line:#8a8a8a;
---head:Orbitron,system-ui,sans-serif;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#15181d;--ink:#eef2f6;--paper:#20252c;--sky:#2b6f8d;--sky-l:#1f3b48;--pink-l:#4a2438;--yel:#6b5f1f;--yel-l:#3f3a1f;--green-l:#2b3d27;--blue-d:#8fd6f2;--pink-d:#ff8fc4;--green-d:#9be08f;--line:#777}}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--page);color:var(--ink);font-family:Nunito,system-ui,sans-serif;font-size:12px;line-height:1.5}
-button{font:inherit;color:inherit;cursor:pointer}
-:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
-.wrap{max-width:900px;margin:0 auto;padding:0 12px 60px}
-.fun,h2,h3{font-family:var(--head);font-weight:700;text-transform:uppercase;letter-spacing:.03em}
-.round{width:24px;height:24px;border-radius:50%;border:1.5px solid #3B8A31;background:var(--green);color:#10230d;font-size:12px;line-height:1;padding:0}
-.round.x{border-color:#b8306f;background:var(--pink);color:#fff;font-weight:800}
-.round:disabled{opacity:.45;cursor:default}
+/* ============ Tokens ============ */
+:root {
+  --page: #fff; --ink: #1f2a3d; --paper: #fff;
+  --sky: #70C9ED; --sky-l: #E5F5FA;
+  --pink: #E94B9B; --pink-l: #F8E7EF;
+  --yel: #F7E477; --yel-l: #FFF3D4;
+  --green: #76C76B; --green-l: #E9F3DC;
+  --blue-d: #1B6F93; --pink-d: #B8306F; --green-d: #3B8A31;
+  --line: #8a8a8a;
+  --head: Orbitron, system-ui, sans-serif;
+  --on-sky: #10222e; --on-yel: #2b2500;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #15181d; --ink: #eef2f6; --paper: #20252c;
+    --sky: #2b6f8d; --sky-l: #1f3b48; --pink-l: #4a2438;
+    --yel: #6b5f1f; --yel-l: #3f3a1f; --green-l: #2b3d27;
+    --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --line: #777;
+    --on-sky: #eef6fa; --on-yel: #fff3d4; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --page: #15181d; --ink: #eef2f6; --paper: #20252c;
+  --sky: #2b6f8d; --sky-l: #1f3b48; --pink-l: #4a2438;
+  --yel: #6b5f1f; --yel-l: #3f3a1f; --green-l: #2b3d27;
+  --blue-d: #8fd6f2; --pink-d: #ff8fc4; --green-d: #9be08f; --line: #777;
+  --on-sky: #eef6fa; --on-yel: #fff3d4; color-scheme: dark;
+}
 
-/* tabs */
-.tabs{display:flex;align-items:center;gap:8px;background:var(--sky);color:#10222e;padding:6px 12px;position:sticky;top:0;z-index:5}
-.tab{border:0;background:none;font-family:var(--head);font-weight:700;font-size:12px;letter-spacing:.04em;padding:3px 16px;border-radius:99px}
-.tab[aria-selected=true]{background:var(--pink);color:#fff}
-.sp{flex:1}
+/* ============ Base ============ */
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 12px/1.5 Nunito, system-ui, sans-serif; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; }
+.wrap { max-width: 900px; margin: 0 auto; padding-block: 0 60px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.fun, h2, h3 { font-family: var(--head); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+.hidden { display: none !important; }
 
-/* cards */
-.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:18px 0}
-.game{background:var(--yel-l);border:2px solid var(--yel);border-radius:12px;padding:10px 14px 14px;font-size:12px;text-align:left;box-shadow:0 3px 8px rgba(0,0,0,.15)}
-.game h3{margin:.1em 0 .4em;font-size:1.3rem}
-.game:nth-child(1) h3{color:var(--pink-d)}.game:nth-child(2) h3{color:var(--blue-d)}.game:nth-child(3) h3{color:var(--green-d)}
-.game[aria-pressed=true]{border-color:var(--pink);box-shadow:0 0 0 2px var(--pink),0 3px 8px rgba(0,0,0,.15)}
+/* ============ Round buttons ============ */
+.round { width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1.5px solid #3B8A31; background: var(--green); color: #10230d; font-size: 12px; line-height: 1; }
+.round.x { border-color: #b8306f; background: var(--pink); color: #fff; font-weight: 800; }
+.round:disabled { opacity: .45; cursor: default; }
 
-/* windows */
-.win{background:var(--yel-l);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.2);margin:20px 0;overflow:hidden}
-.wbar{display:flex;align-items:center;gap:6px;padding:6px 12px;font-size:11px;letter-spacing:.05em}
-.win .wbar{background:var(--yel);color:#2b2500}
-.wbar h2{flex:1;margin:0;font-size:11px}
-.wbody{padding:6px 16px 20px}
+/* ============ Tabs ============ */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; display: flex; align-items: center; gap: 8px; padding: 6px max(16px, env(safe-area-inset-right, 0px)) 6px max(16px, env(safe-area-inset-left, 0px)); background: var(--sky); color: var(--on-sky); }
+.tab { border: 0; background: none; padding: 3px 16px; border-radius: 99px; font: 700 12px var(--head); letter-spacing: .04em; }
+.tab[aria-selected=true] { background: var(--pink); color: #fff; }
+.sp { flex: 1; }
 
-/* accordion */
-.acc{list-style:none;margin:0;padding:0}
-.acc>li{margin:8px 0}
-.acc .head{display:flex;align-items:center;gap:8px;width:100%;border:0;background:none;text-align:left;padding:2px 0}
-.acc .chev{display:inline-block;transition:transform .2s;font-weight:800;color:var(--pink-d)}
-.acc [aria-expanded=true] .chev{transform:rotate(90deg)}
-.acc .dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--ink);background:var(--paper)}
-.acc .lbl{padding:4px 14px;background:var(--sky-l);border:2px solid var(--sky);border-radius:8px;font-size:clamp(.85rem,3.6vw,1.25rem);color:var(--blue-d)}
-.nums{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0 6px 56px}
-.nums button{width:38px;height:34px;border:2px solid var(--sky);border-radius:8px;background:var(--sky-l);font-family:var(--head);font-weight:700;font-size:12px;color:var(--blue-d)}
-.nums button:hover{border-color:var(--pink)}
-.nums button[aria-current=true]{box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--blue-d)}
-.nums button.done{background:var(--pink);border-color:var(--pink);color:#fff}
-.acc .dot.done{background:var(--green);border-color:var(--green-d);display:grid;place-items:center;font-size:12px;line-height:1;font-weight:800;color:#10230d}
+/* ============ Game cards ============ */
+.games { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 18px 0; }
+.game { padding: 10px 14px 14px; font-size: 12px; text-align: left; background: var(--yel-l); border: 2px solid var(--yel); border-radius: 12px; box-shadow: 0 3px 8px rgba(0,0,0,.15); }
+.game h3 { margin: .1em 0 .4em; font-size: 1.3rem; }
+.game:nth-child(1) h3 { color: var(--pink-d); }
+.game:nth-child(2) h3 { color: var(--blue-d); }
+.game:nth-child(3) h3 { color: var(--green-d); }
+.game[aria-pressed=true] { border-color: var(--pink); box-shadow: 0 0 0 2px var(--pink), 0 3px 8px rgba(0,0,0,.15); }
 
-/* step viewer */
-.viewer{background:var(--paper);border:2px solid var(--sky);border-radius:12px;box-shadow:0 6px 14px rgba(0,0,0,.2);overflow:hidden;margin:20px 0}
-.viewer .wbar{background:var(--sky);color:#10222e}
-.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:12px}
-@media(max-width:640px){.vgrid{grid-template-columns:1fr}}
-.steps{background:var(--pink-l);border-radius:10px;padding:10px 14px 14px;max-height:min(72vh,560px);overflow:auto;font-size:12px}
-.steps h3{margin:0 0 6px;text-align:center;font-size:1.4rem;color:var(--pink-d)}
-.step{margin:8px 0;padding:6px 8px;border-radius:8px}
-.step:has(input:checked){background:var(--green-l)}
-.step label{display:flex;gap:8px;align-items:center;font-family:var(--head);font-weight:700;font-size:12px;cursor:pointer}
-.step input{width:16px;height:16px;accent-color:var(--green-d)}
-.step p,.step ul{margin:.4em 0 0 24px;font-size:12px}
-.step ul{padding-left:16px}
-.step ul ul{margin-left:0}
-.step input:checked+span{text-decoration:line-through;opacity:.7}
-.writewrap{position:relative;display:flex}
-.write{display:block;height:100%;padding-right:48px!important}
-.copybtn{position:absolute;top:8px;right:8px;width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--sky);border-radius:8px;background:var(--sky-l);color:var(--blue-d);padding:0}
-.copybtn:hover{border-color:var(--pink);color:var(--pink-d)}
-.copybtn.done{background:var(--green);border-color:var(--green-d);color:#10230d}
-.clearbtn{top:46px}
-.clearbtn:hover{border-color:var(--pink-d);background:var(--pink-l);color:var(--pink-d)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:20;padding:16px}
-.mbox{background:var(--paper);color:var(--ink);border:2px solid var(--pink);border-radius:14px;padding:18px 20px;max-width:380px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.mbox h3{margin:0 0 8px;font-size:1rem;color:var(--pink-d)}
-.mbox p{margin:0 0 16px}
-.mrow{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
-.copied{position:absolute;top:12px;right:48px;background:var(--green);color:#10230d;font-weight:800;border-radius:99px;padding:2px 10px}
-.write{border:2px solid var(--sky);border-radius:8px;background:var(--paper);color:var(--ink);font:inherit;padding:10px;min-height:260px;resize:vertical;width:100%}
-.pg{font-size:11px;margin-right:6px}
-.pill{font-size:11px;font-weight:800;padding:1px 10px;border-radius:99px;background:var(--sky-l);color:#10222e;margin-right:6px}
-.pill.full{background:var(--pink);color:#fff}
+/* ============ Windows ============ */
+.win { margin: 20px 0; overflow: hidden; background: var(--yel-l); border-radius: 12px; box-shadow: 0 6px 14px rgba(0,0,0,.2); }
+.wbar { display: flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 11px; letter-spacing: .05em; }
+.win .wbar { background: var(--yel); color: var(--on-yel); }
+.wbar h2 { flex: 1; margin: 0; font-size: 11px; }
+.wbody { padding: 6px 16px 20px; }
+.pg { margin-right: 6px; font-size: 11px; }
+.pill { margin-right: 6px; padding: 1px 10px; border-radius: 99px; background: var(--sky-l); color: var(--on-sky); font-size: 11px; font-weight: 800; }
+.pill.full { background: var(--pink); color: #fff; }
 
-/* quiz deck */
-.deck{margin:20px 0}
-.deckhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-.deckhead h2{margin:0;font-size:1.3rem;color:var(--blue-d)}
-.deck-sub{margin:2px 0 0;opacity:.75}
-.studybtn{border:0;border-radius:99px;background:var(--pink);color:#fff;font-family:var(--head);font-weight:700;font-size:12px;letter-spacing:.04em;padding:10px 20px}
-.studybtn:hover{filter:brightness(.95)}
-.cardsh{margin:0 0 10px;font-size:12px;color:var(--pink-d)}
-.qcard{background:var(--paper);border:2px solid var(--sky);border-radius:14px;margin:0 0 12px;overflow:hidden}
-.qh,.sh{font-family:var(--head);font-weight:700;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--pink-d)}
-.qh{padding:12px 16px 0}.qh+.qt{padding-top:6px!important}.sh{margin:0 0 6px}
-.opt.sel{background:var(--pink-l);border-color:var(--pink);font-weight:800}
-.qcard .qt{padding:12px 16px;font-weight:800;border-bottom:1px dashed var(--sky)}
-.qcard mark,.sq mark{background:var(--green-l);color:inherit;border-radius:4px;padding:0 3px}
-.qcard ul{list-style:none;margin:12px;padding:0;border:2px solid var(--sky);border-radius:14px;overflow:hidden}
-.qcard li{display:flex;gap:8px;align-items:center;padding:10px 12px;background:var(--sky-l);color:#1f2a3d}
-.qcard li+li{border-top:2px solid var(--sky)}
-.qcard li .ic{width:16px;text-align:center;font-weight:800;color:#8a96a3}
-.qcard li.ok .ic{color:var(--green-d)}
-.qcard li.ok{font-weight:800}
-.sq{background:var(--paper);border:2px solid var(--sky);border-radius:14px;padding:16px}
-.sprog{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-family:var(--head);font-weight:700;font-size:11px}
-.bar{flex:1;height:8px;border-radius:99px;background:var(--sky-l);overflow:hidden;border:1px solid var(--sky)}
-.bar i{display:block;height:100%;background:var(--pink);transition:width .25s}
-.sq .qt{font-weight:800;font-size:14px;margin:0 0 14px}
-.opts{display:grid;gap:8px}
-.opt{display:flex;gap:10px;align-items:center;text-align:left;width:100%;padding:11px 14px;border:2px solid var(--sky);border-radius:12px;background:var(--sky-l);color:#1f2a3d}
-.opt:hover:not(:disabled){border-color:var(--pink)}
-.opt:disabled{cursor:default}
-.opt.right{background:var(--green);border-color:var(--green-d);font-weight:800}
-.opt.wrong{background:var(--pink-l);border-color:var(--pink);font-weight:800}
-.sfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;min-height:38px}
-.fb{font-weight:800}
-.fb.ok{color:var(--green-d)}.fb.no{color:var(--pink-d)}
-.score{text-align:center;padding:20px 8px}
-.score .big{font-family:var(--head);font-weight:900;font-size:2rem;color:var(--pink-d);margin:0 0 6px}
-.score .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-.ghost{border:2px solid var(--sky);border-radius:99px;background:var(--sky-l);color:#1f2a3d;font-family:var(--head);font-weight:700;font-size:12px;padding:8px 18px}
-@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
-.hidden{display:none!important}
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.acc .chev{transition:none}}
+/* ============ Accordion ============ */
+.acc { list-style: none; margin: 0; padding: 0; }
+.acc > li { margin: 8px 0; }
+.acc .head { display: flex; align-items: center; gap: 8px; width: 100%; padding: 2px 0; border: 0; background: none; text-align: left; }
+.acc .chev { display: inline-block; font-weight: 800; color: var(--pink-d); transition: transform .2s; }
+.acc [aria-expanded=true] .chev { transform: rotate(90deg); }
+.acc .dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--ink); background: var(--paper); }
+.acc .dot.done { display: grid; place-items: center; background: var(--green); border-color: var(--green-d); color: #10230d; font-size: 12px; font-weight: 800; line-height: 1; }
+.acc .lbl { padding: 4px 14px; font-size: clamp(.85rem, 3.6vw, 1.25rem); color: var(--blue-d); background: var(--sky-l); border: 2px solid var(--sky); border-radius: 8px; }
+
+.nums { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 0 6px 56px; }
+.nums button { width: 38px; height: 34px; font: 700 12px var(--head); color: var(--blue-d); background: var(--sky-l); border: 2px solid var(--sky); border-radius: 8px; }
+.nums button:hover { border-color: var(--pink); }
+.nums button[aria-current=true] { box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--blue-d); }
+.nums button.done { background: var(--pink); border-color: var(--pink); color: #fff; }
+
+/* ============ Step viewer ============ */
+.viewer { margin: 20px 0; overflow: hidden; background: var(--paper); border: 2px solid var(--sky); border-radius: 12px; box-shadow: 0 6px 14px rgba(0,0,0,.2); }
+.viewer .wbar { background: var(--sky); color: var(--on-sky); }
+.vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 12px; }
+@media (max-width: 640px) { .vgrid { grid-template-columns: 1fr; } }
+
+.steps { max-height: min(72vh, 560px); overflow: auto; padding: 10px 14px 14px; font-size: 12px; background: var(--pink-l); border-radius: 10px; }
+.steps h3 { margin: 0 0 6px; text-align: center; font-size: 1.4rem; color: var(--pink-d); }
+.step { margin: 8px 0; padding: 6px 8px; border-radius: 8px; }
+.step:has(input:checked) { background: var(--green-l); }
+.step label { display: flex; align-items: center; gap: 8px; font: 700 12px var(--head); cursor: pointer; }
+.step input { width: 16px; height: 16px; accent-color: var(--green-d); }
+.step input:checked + span { text-decoration: line-through; opacity: .7; }
+.step p, .step ul { margin: .4em 0 0 24px; font-size: 12px; }
+.step ul { padding-left: 16px; }
+.step ul ul { margin-left: 0; }
+
+/* Writing area + tools */
+.writewrap { position: relative; display: flex; }
+.write { display: block; width: 100%; height: 100%; min-height: 260px; padding: 10px 48px 10px 10px; font: inherit; color: var(--ink); background: var(--paper); border: 2px solid var(--sky); border-radius: 8px; resize: vertical; }
+.copybtn { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; display: grid; place-items: center; padding: 0; color: var(--blue-d); background: var(--sky-l); border: 2px solid var(--sky); border-radius: 8px; }
+.copybtn:hover { border-color: var(--pink); color: var(--pink-d); }
+.copybtn.done { background: var(--green); border-color: var(--green-d); color: #10230d; }
+.clearbtn { top: 46px; }
+.clearbtn:hover { border-color: var(--pink-d); background: var(--pink-l); color: var(--pink-d); }
+.copied { position: absolute; top: 12px; right: 48px; padding: 2px 10px; background: var(--green); color: #10230d; font-weight: 800; border-radius: 99px; }
+
+/* ============ Confirm modal ============ */
+.modal { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 16px; background: rgba(0,0,0,.5); }
+.mbox { width: 100%; max-width: 380px; padding: 18px 20px; background: var(--paper); color: var(--ink); border: 2px solid var(--pink); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.35); }
+.mbox h3 { margin: 0 0 8px; font-size: 1rem; color: var(--pink-d); }
+.mbox p { margin: 0 0 16px; }
+.mrow { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+
+/* ============ Quiz deck ============ */
+.deck { margin: 20px 0; }
+.deckhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.deckhead h2 { margin: 0; font-size: 1.3rem; color: var(--blue-d); }
+.deck-sub { margin: 2px 0 0; opacity: .75; }
+.cardsh { margin: 0 0 10px; font-size: 12px; color: var(--pink-d); }
+
+.studybtn { padding: 10px 20px; border: 0; border-radius: 99px; background: var(--pink); color: #fff; font: 700 12px var(--head); letter-spacing: .04em; }
+.studybtn:hover { filter: brightness(.95); }
+.ghost { padding: 8px 18px; border: 2px solid var(--sky); border-radius: 99px; background: var(--sky-l); color: var(--ink); font: 700 12px var(--head); }
+
+/* Deck cards (review list) */
+.qcard { margin: 0 0 12px; overflow: hidden; background: var(--paper); border: 2px solid var(--sky); border-radius: 14px; }
+.qh, .sh { font: 700 11px var(--head); letter-spacing: .04em; text-transform: uppercase; color: var(--pink-d); }
+.qh { padding: 12px 16px 0; }
+.qh + .qt { padding-top: 6px !important; }
+.sh { margin: 0 0 6px; }
+.qcard .qt { padding: 12px 16px; font-weight: 800; border-bottom: 1px dashed var(--sky); }
+.qcard mark, .sq mark { padding: 0 3px; background: var(--green-l); color: inherit; border-radius: 4px; }
+.qcard ul { list-style: none; margin: 12px; padding: 0; overflow: hidden; border: 2px solid var(--sky); border-radius: 14px; }
+.qcard li { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--sky-l); color: var(--ink); }
+.qcard li + li { border-top: 2px solid var(--sky); }
+.qcard li .ic { width: 16px; text-align: center; font-weight: 800; color: #8a96a3; }
+.qcard li.ok { font-weight: 800; }
+.qcard li.ok .ic { color: var(--green-d); }
+
+/* Study mode */
+.sq { padding: 16px; background: var(--paper); border: 2px solid var(--sky); border-radius: 14px; }
+.sq .qt { margin: 0 0 14px; font-weight: 800; font-size: 14px; }
+.sprog { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font: 700 11px var(--head); }
+.bar { flex: 1; height: 8px; overflow: hidden; background: var(--sky-l); border: 1px solid var(--sky); border-radius: 99px; }
+.bar i { display: block; height: 100%; background: var(--pink); transition: width .25s; }
+.opts { display: grid; gap: 8px; }
+.opt { display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 14px; text-align: left; color: var(--ink); background: var(--sky-l); border: 2px solid var(--sky); border-radius: 12px; }
+.opt:hover:not(:disabled) { border-color: var(--pink); }
+.opt:disabled { cursor: default; }
+.opt.sel { background: var(--pink-l); border-color: var(--pink); font-weight: 800; }
+.opt.right { background: var(--green); border-color: var(--green-d); font-weight: 800; }
+.opt.wrong { background: var(--pink-l); border-color: var(--pink); font-weight: 800; }
+.sfoot { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 38px; margin-top: 14px; }
+.fb { font-weight: 800; }
+.fb.ok { color: var(--green-d); }
+.fb.no { color: var(--pink-d); }
+.score { padding: 20px 8px; text-align: center; }
+.score .big { margin: 0 0 6px; font: 900 2rem var(--head); color: var(--pink-d); }
+.score .row { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 16px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .acc .chev, .bar i { transition: none; }
+}
+
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sky); }
+.steps, .qcard li, .opt, .step label { min-width: 0; overflow-wrap: anywhere; }
+
 </style>
-</head>
-<body>
-<div class="tabs" role="tablist">
-  <button class="tab" role="tab" aria-selected="false" data-t="writing">WRITING</button>
-  <button class="tab" role="tab" aria-selected="true" data-t="interactives">INTERACTIVES</button>
-  <span class="sp"></span>
-  <button class="round" aria-label="Switch tab" id="flip">‹</button>
-  <button class="round x" aria-label="Close">✕</button>
-</div>
+<!-- Tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="false" data-t="writing">WRITING</button>
+    <button class="tab" role="tab" aria-selected="true" data-t="interactives">INTERACTIVES</button>
+    <span class="sp"></span>
+    <button class="round" aria-label="Switch tab" id="flip">‹</button>
+    <button class="round x" aria-label="Close">✕</button>
+  </div>
 
-<div class="wrap">
-  <section id="writing" class="hidden">
-    <p style="margin-top:24px">Switch to <b>Interactives</b> to try the writing activities. Aute proident ut dolor cillum in elit aliqua consequat.</p>
-  </section>
+  <div class="wrap">
 
-  <section id="interactives">
-    <div class="games">
-      <button class="game" aria-pressed="false" data-g="quiz"><h3 class="fun">Quiz</h3>Test what you learned. Study a deck of questions on research basics and see your score at the end.</button>
-      <button class="game" aria-pressed="true" data-g="activity"><h3 class="fun">Activity</h3>Write your research paper section by section. Follow the guided steps and type your draft beside them.</button>
-    </div>
-
-    <div class="win" id="activities">
-      <div class="wbar"><h2>ACTIVITIES</h2><button class="round" id="a-prev" aria-label="Collapse all">‹</button><button class="round x" id="a-close" aria-label="Close activities">✕</button></div>
-      <div class="wbody"><ul class="acc" id="acc"></ul></div>
-    </div>
-    <section class="deck hidden" id="quiz" aria-label="Quiz deck">
-      <div class="deckhead">
-        <div><h2 class="fun" id="deck-title">Research Time!</h2><p class="deck-sub" id="deck-sub"></p></div>
-        <button class="studybtn" id="study-btn">Study deck</button>
-      </div>
-      <div id="materials">
-        <h3 class="cardsh" id="cards-h"></h3>
-        <div id="cards"></div>
-      </div>
-      <div id="study" class="hidden" aria-live="polite"></div>
+    <!-- Writing tab -->
+    <section id="writing" class="hidden">
+      <p style="margin-top:24px">Switch to <b>Interactives</b> to try the writing activities. Aute proident ut dolor cillum in elit aliqua consequat.</p>
     </section>
 
-    <div class="viewer hidden" id="viewer" aria-live="polite">
-      <div class="wbar"><h2 id="v-title"></h2><span class="pill" id="v-done"></span><span class="pg" id="v-pg"></span><button class="round" id="v-prev" aria-label="Previous page">‹</button><button class="round" id="v-next" aria-label="Next page">›</button><button class="round x" id="v-close" aria-label="Close">✕</button></div>
-      <div class="vgrid"><div class="steps" id="steps"></div><div class="writewrap"><textarea class="write" id="write" placeholder="TYPE HERE..." aria-label="Writing area"></textarea><button class="copybtn" id="copy" type="button" aria-label="Copy text" title="Copy text"><svg id="copy-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button><button class="copybtn clearbtn" id="clear" type="button" aria-label="Clear all text" title="Clear all text"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg></button><span class="copied hidden" id="copied" role="status">Copied!</span></div></div>
-    </div>
-  </section>
-</div>
+    <!-- Interactives tab -->
+    <section id="interactives">
 
-<div class="modal hidden" id="confirm" role="alertdialog" aria-modal="true" aria-labelledby="c-t" aria-describedby="c-d">
-  <div class="mbox">
-    <h3 id="c-t">Delete text?</h3>
-    <p id="c-d">Are you sure you want to delete the text? This cannot be brought back.</p>
-    <div class="mrow"><button class="ghost" id="c-no" type="button">No, keep it</button><button class="studybtn" id="c-yes" type="button">Yes, delete</button></div>
+      <div class="games">
+        <button class="game" aria-pressed="false" data-g="quiz"><h3 class="fun">Quiz</h3>Test what you learned. Study a deck of questions on research basics and see your score at the end.</button>
+        <button class="game" aria-pressed="true" data-g="activity"><h3 class="fun">Activity</h3>Write your research paper section by section. Follow the guided steps and type your draft beside them.</button>
+      </div>
+
+      <!-- Activities accordion -->
+      <div class="win" id="activities">
+        <div class="wbar">
+          <h2>ACTIVITIES</h2>
+          <button class="round" id="a-prev" aria-label="Collapse all">‹</button>
+          <button class="round x" id="a-close" aria-label="Close activities">✕</button>
+        </div>
+        <div class="wbody"><ul class="acc" id="acc"></ul></div>
+      </div>
+
+      <!-- Quiz deck -->
+      <section class="deck hidden" id="quiz" aria-label="Quiz deck">
+        <div class="deckhead">
+          <div>
+            <h2 class="fun" id="deck-title">Research Time!</h2>
+            <p class="deck-sub" id="deck-sub"></p>
+          </div>
+          <button class="studybtn" id="study-btn">Study deck</button>
+        </div>
+        <div id="materials">
+          <h3 class="cardsh" id="cards-h"></h3>
+          <div id="cards"></div>
+        </div>
+        <div id="study" class="hidden" aria-live="polite"></div>
+      </section>
+
+      <!-- Step viewer -->
+      <div class="viewer hidden" id="viewer" aria-live="polite">
+        <div class="wbar">
+          <h2 id="v-title"></h2>
+          <span class="pill" id="v-done"></span>
+          <button class="round" id="v-prev" aria-label="Previous stage" title="Previous stage">‹</button>
+          <button class="round" id="v-next" aria-label="Next stage" title="Next stage">›</button>
+          <button class="round x" id="v-close" aria-label="Close">✕</button>
+        </div>
+        <div class="vgrid">
+          <div class="steps" id="steps"></div>
+          <div class="writewrap">
+            <textarea class="write" id="write" placeholder="TYPE HERE..." aria-label="Writing area"></textarea>
+            <button class="copybtn" id="copy" type="button" aria-label="Copy text" title="Copy text">
+              <svg id="copy-ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            </button>
+            <button class="copybtn clearbtn" id="clear" type="button" aria-label="Clear all text" title="Clear all text">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v6M14 11v6"/></svg>
+            </button>
+            <span class="copied hidden" id="copied" role="status">Copied!</span>
+          </div>
+        </div>
+      </div>
+
+    </section>
   </div>
-</div>
+
+  <!-- Delete confirmation -->
+  <div class="modal hidden" id="confirm" role="alertdialog" aria-modal="true" aria-labelledby="c-t" aria-describedby="c-d">
+    <div class="mbox">
+      <h3 id="c-t">Delete text?</h3>
+      <p id="c-d">Are you sure you want to delete the text? This cannot be brought back.</p>
+      <div class="mrow">
+        <button class="ghost" id="c-no" type="button">No, keep it</button>
+        <button class="studybtn" id="c-yes" type="button">Yes, delete</button>
+      </div>
+    </div>
+  </div>
 <script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const LOREM="Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.";
-/* placeholder pages for sections without content yet */
-const gen=n=>Array.from({length:n},()=>[["Step title one",LOREM],["Step title two",LOREM,["Lorem ipsum dolor sit amet","Consectetur adipiscing elit"]],["Step title three",LOREM]]);
+/* =====================================================
+   Helpers
+   ===================================================== */
+const $  = (s) => document.querySelector(s);
+const $$ = (s) => [...document.querySelectorAll(s)];
 
-/* data: section -> [ [item name, pages] ]
-   page = [step, ...]; step = [title, ...blocks]; block = "paragraph" | [bullets] ; a bullet may be followed by an array = its sub-bullets */
-const DATA={
- "Introduction Writing":[
-  ["Background of the Study",[
-   [["Define the Topic","Write one sentence stating the core topic and one sentence stating the boundaries (time period, population, geographic focus, or methodological scope). This acts as your compass for the rest of the section."],
-    ["Search the Literature","Conduct a targeted literature search using academic databases such as PubMed, Scopus, Web of Science, or Google Scholar. Focus on finding foundational studies that established key concepts, recent studies that represent the current state of knowledge, and studies that are most closely related to your specific research question.","Organize your sources thematically rather than chronologically. Group them by subtopic, methodology, population, or finding."],
-    ["Identify Key Themes","Read through your collected sources and identify what the evidence consistently shows, where findings disagree, what methodological approaches dominate, and where coverage is thin or absent. These themes become your paragraph topics."]],
-   [["Synthesize the Evidence","Synthesis means combining evidence from multiple sources to make a single point. Each paragraph should advance one theme or argument, drawing on multiple citations to support it. This demonstrates that you understand the literature as a body of evidence, not just as a collection of individual papers."],
-    ["State the Gap","After presenting what is known, you must clearly state what is not known. The gap is the specific piece of missing knowledge that your study will address. Effective gap statements use phrases such as “however, no study has examined,” “despite this evidence, the relationship between X and Y remains unclear,” or “existing research has focused predominantly on Z, leaving the question of W unanswered.”"],
-    ["Connect to Your Purpose","The final paragraph of your background should transition from the gap to the purpose of your study. This connection must be explicit: “Therefore, this study aims to...” or “To address this gap, the present research examines...” The reader should feel that your study is a logical and necessary response to the gap you have just identified."]]]],
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const load = (key) => { try { return JSON.parse(localStorage.getItem(key) || '{}'); } catch (e) { return {}; } };
+const persist = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {} };
 
-  ["Rationale",[
-   [["Establish the Scope","Summarize what is reliably known, citing the strongest and most current evidence. This section exists to earn the reader’s agreement that you understand the field, not to list everything ever published on the topic — be selective and cite the work that most directly bears on the gap you’re about to name."],
-    ["Identify the Gap","This is the step most rationales get wrong. “Nobody has studied X” is not, by itself, a reason to study X. A gap is worth filling when at least one of the following is true:",
-      ["Existing findings conflict, and resolving the conflict would change practice or theory.","A finding from one population, setting, or method hasn’t been tested elsewhere and there’s a specific reason to expect it might not generalize.","A theoretical prediction has never been empirically tested.","A practical or clinical decision is currently being made without the evidence it needs."],
-      "A strong rationale distinguishes “nobody has looked” from “nobody has looked, and here is why that specifically matters.”"]],
-   [["State the Significance","Say precisely what this study contributes that the existing literature does not: a new population, a stronger design, a missing measurement, a direct test of a claim that has only been assumed. This is the sentence a reader should be able to lift out and use as the one-line justification for the whole study."],
-    ["State the Consequence of Not Doing It","Close the rationale by naming what stays unresolved, or what continues to happen, if the study isn’t done — a clinical decision made on weaker evidence, a policy built on an untested assumption, a theoretical debate that stays unresolved. This is what converts “interesting gap” into “gap worth the cost of closing,” and it’s the sentence a funder or committee is often looking for most directly."]]]],
+/* =====================================================
+   Data
+   page = [step, ...]
+   step = [title, ...blocks]
+   block = "paragraph" | [bullets]   (a bullet followed by an array = its sub-bullets)
+   ===================================================== */
+const LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore.';
 
-  ["Review of Related Literature",[
-   [["Search for Related Literature","Before you begin searching for literature, you need a clearly defined topic.","If you are writing the literature review section of a dissertation or research paper, you will search for literature related to your research problem and questions."],
-    ["Evaluate and Select Sources","You likely won’t be able to read absolutely everything that has been written on your topic, so it will be necessary to evaluate which sources are most relevant to your research question.","For each publication, ask yourself:",
-      ["What question or problem is the author addressing?","What are the key concepts and how are they defined?","What are the key theories, models, and methods?","Does the research use established frameworks or take an innovative approach?","What are the results and conclusions of the study?","How does the publication relate to other literature in the field?","Does it confirm, add to, or challenge established knowledge?","What are the strengths and weaknesses of the research?"],
-      "Make sure the sources you use are credible, and make sure you read any landmark studies and major theories in your field of research."]],
-   [["Identify Themes, Debate, and Gaps","To begin organizing your literature review’s argument and structure, be sure you understand the connections and relationships between the sources you’ve read. Based on your reading and notes, you can look for:",
-      ["Trends and patterns (in theory, method or results): do certain approaches become more or less popular over time?","Themes: what questions or concepts recur across the literature?","Debates, conflicts and contradictions: where do sources disagree?","Pivotal publications: are there any influential theories or studies that changed the direction of the field?","Gaps: what is missing from the literature? Are there weaknesses that need to be addressed?"]],
-    ["Outline Your Literature Review’s Structure","There are various approaches to organizing the body of a literature review. Depending on the length of your literature review, you can combine several of these strategies (for example, your overall structure might be thematic, but each theme is discussed chronologically)."]]]],
+// Placeholder pages for sections that have no content yet
+const gen = (n) => Array.from({ length: n }, () => [
+  ['Step title one', LOREM],
+  ['Step title two', LOREM, ['Lorem ipsum dolor sit amet', 'Consectetur adipiscing elit']],
+  ['Step title three', LOREM],
+]);
 
-  ["Statement of the Problem",[
-   [["Narrow the Topic to a Specific Population and Setting",["Replace broad subjects with a defined group, place, and period","Move from “student engagement” to “grade 9 algebra students in 3 rural districts, 2022–2025”","Apply the 4W test: who, where, what, and when"]],
-    ["Gather Evidence Before Drafting",["Collect institutional data, national statistics, audit results, or quality reports","Prefer sources published within the last 5 years for prevalence claims","Record exact figures and their denominators, since reviewers check them"]],
-    ["Name the Gap Precisely","Whether it’s a Population, Methodological, Evidence, or Practical Gap."],
-    ["Quantify the Impact",["Attach at least 1 number to the shortfall: a rate, a percentage, a cost, or a count","Compare that figure to a benchmark, a prior year, or a peer group","Avoid vague intensifiers such as “many,” “significant,” or “alarming”"]],
-    ["State the Consequence of Inaction",["Identify who bears the cost: students, patients, staff, customers, or the organization","Describe the cost in the currency of the field: outcomes, safety events, revenue, or turnover","Keep it factual; do not shift into advocacy language"]],
-    ["Draft, then Cut",["Write the full passage without worrying about length","Remove sentences that describe the field generally rather than the gap specifically","Check that every remaining sentence maps to 1 of the 5 core components","Read the first sentence alone: it should still convey the problem"]]]]],
+const DATA = {
+  'Introduction Writing': [
+    ['Background of the Study', [
+      [
+        ['Define the Topic', 'Write one sentence stating the core topic and one sentence stating the boundaries (time period, population, geographic focus, or methodological scope). This acts as your compass for the rest of the section.'],
+        ['Search the Literature', 'Conduct a targeted literature search using academic databases such as PubMed, Scopus, Web of Science, or Google Scholar. Focus on finding foundational studies that established key concepts, recent studies that represent the current state of knowledge, and studies that are most closely related to your specific research question.', 'Organize your sources thematically rather than chronologically. Group them by subtopic, methodology, population, or finding.'],
+        ['Identify Key Themes', 'Read through your collected sources and identify what the evidence consistently shows, where findings disagree, what methodological approaches dominate, and where coverage is thin or absent. These themes become your paragraph topics.'],
+      ],
+      [
+        ['Synthesize the Evidence', 'Synthesis means combining evidence from multiple sources to make a single point. Each paragraph should advance one theme or argument, drawing on multiple citations to support it. This demonstrates that you understand the literature as a body of evidence, not just as a collection of individual papers.'],
+        ['State the Gap', 'After presenting what is known, you must clearly state what is not known. The gap is the specific piece of missing knowledge that your study will address. Effective gap statements use phrases such as “however, no study has examined,” “despite this evidence, the relationship between X and Y remains unclear,” or “existing research has focused predominantly on Z, leaving the question of W unanswered.”'],
+        ['Connect to Your Purpose', 'The final paragraph of your background should transition from the gap to the purpose of your study. This connection must be explicit: “Therefore, this study aims to...” or “To address this gap, the present research examines...” The reader should feel that your study is a logical and necessary response to the gap you have just identified.'],
+      ],
+    ]],
 
-  ["Hypothesis",[
-   [["Ask a Question","Writing a hypothesis begins with a research question that you want to answer. The question should be focused, specific, and researchable within the constraints of your project."],
-    ["Do Some Preliminary Research","Your initial answer to the question should be based on what is already known about the topic. Look for theories and previous studies to help you form educated assumptions about what your research will find."],
-    ["Formulate Your Hypothesis","Now you should have some idea of what you expect to find. Write your initial answer to the question in a clear, concise sentence."],
-    ["Refine Your Hypothesis","You need to make sure your hypothesis is specific and testable. There are various ways of phrasing a hypothesis, but all the terms you use should have clear definitions, and the hypothesis should contain:",["The relevant variables","The specific group being studied","The predicted outcome of the experiment or analysis"]],
-    ["Write a Null Hypothesis","If your research involves statistical hypothesis testing, you will also have to write a null hypothesis. The null hypothesis is the default position that there is no association between the variables. The null hypothesis is written as H0, while the alternative hypothesis is H1 or Ha."],
-    ["Phrase Your Hypothesis in 3 Ways","To identify the variables, you can write a simple prediction in if…then form, state the predicted relationship between them, or what difference you expect to find between them."]]]],
+    ['Rationale', [
+      [
+        ['Establish the Scope', 'Summarize what is reliably known, citing the strongest and most current evidence. This section exists to earn the reader’s agreement that you understand the field, not to list everything ever published on the topic — be selective and cite the work that most directly bears on the gap you’re about to name.'],
+        ['Identify the Gap', 'This is the step most rationales get wrong. “Nobody has studied X” is not, by itself, a reason to study X. A gap is worth filling when at least one of the following is true:',
+          [
+            'Existing findings conflict, and resolving the conflict would change practice or theory.',
+            'A finding from one population, setting, or method hasn’t been tested elsewhere and there’s a specific reason to expect it might not generalize.',
+            'A theoretical prediction has never been empirically tested.',
+            'A practical or clinical decision is currently being made without the evidence it needs.',
+          ],
+          'A strong rationale distinguishes “nobody has looked” from “nobody has looked, and here is why that specifically matters.”'],
+      ],
+      [
+        ['State the Significance', 'Say precisely what this study contributes that the existing literature does not: a new population, a stronger design, a missing measurement, a direct test of a claim that has only been assumed. This is the sentence a reader should be able to lift out and use as the one-line justification for the whole study.'],
+        ['State the Consequence of Not Doing It', 'Close the rationale by naming what stays unresolved, or what continues to happen, if the study isn’t done — a clinical decision made on weaker evidence, a policy built on an untested assumption, a theoretical debate that stays unresolved. This is what converts “interesting gap” into “gap worth the cost of closing,” and it’s the sentence a funder or committee is often looking for most directly.'],
+      ],
+    ]],
 
-  ["Significance of the Study",[
-   [["Restate the Research Problem and Gap in One Sentence","Anchor the reader in what is missing from current knowledge or practice."],
-    ["State the Contribution","Say plainly what new knowledge, evidence or insight your study will produce."],
-    ["Identify the Beneficiaries","Name specific groups: researchers in the field, a profession, a policy area, an organisation, a community, future students. Be concrete."],
-    ["Explain How Each Group Benefits","For every beneficiary, give a short, plausible outcome rather than a vague claim."],
-    ["Connect to Theory and Practice","Separate the theoretical contribution from the practical implications so the examiner sees both."],
-    ["Keep It Realistic","Match your claims to your study’s scope and sample. Overclaiming is the fastest way to lose credibility."]]]],
+    ['Review of Related Literature', [
+      [
+        ['Search for Related Literature', 'Before you begin searching for literature, you need a clearly defined topic.', 'If you are writing the literature review section of a dissertation or research paper, you will search for literature related to your research problem and questions.'],
+        ['Evaluate and Select Sources', 'You likely won’t be able to read absolutely everything that has been written on your topic, so it will be necessary to evaluate which sources are most relevant to your research question.', 'For each publication, ask yourself:',
+          [
+            'What question or problem is the author addressing?',
+            'What are the key concepts and how are they defined?',
+            'What are the key theories, models, and methods?',
+            'Does the research use established frameworks or take an innovative approach?',
+            'What are the results and conclusions of the study?',
+            'How does the publication relate to other literature in the field?',
+            'Does it confirm, add to, or challenge established knowledge?',
+            'What are the strengths and weaknesses of the research?',
+          ],
+          'Make sure the sources you use are credible, and make sure you read any landmark studies and major theories in your field of research.'],
+      ],
+      [
+        ['Identify Themes, Debate, and Gaps', 'To begin organizing your literature review’s argument and structure, be sure you understand the connections and relationships between the sources you’ve read. Based on your reading and notes, you can look for:',
+          [
+            'Trends and patterns (in theory, method or results): do certain approaches become more or less popular over time?',
+            'Themes: what questions or concepts recur across the literature?',
+            'Debates, conflicts and contradictions: where do sources disagree?',
+            'Pivotal publications: are there any influential theories or studies that changed the direction of the field?',
+            'Gaps: what is missing from the literature? Are there weaknesses that need to be addressed?',
+          ]],
+        ['Outline Your Literature Review’s Structure', 'There are various approaches to organizing the body of a literature review. Depending on the length of your literature review, you can combine several of these strategies (for example, your overall structure might be thematic, but each theme is discussed chronologically).'],
+      ],
+    ]],
 
-  ["Scope and Limitation",[
-   [["Restate Your Aim and Research Questions","Open the section by re-anchoring the reader to what the study sets out to achieve. The scope grows directly out of the aim."],
-    ["State What the Study Covers","Work through the six dimensions above — population, place, period, variables, method — and write a sentence or two for each that applies."]],
-   [["State What the Study Excludes","Name the groups, settings, variables or methods you are deliberately leaving out. This is where scope shades into delimitations."],
-    ["Give a Brief Reason for Each Major Boundary","“X was excluded because…” shows the boundary is a considered decision, not an oversight."],
-    ["Check Alignment","Confirm that the scope matches your research questions, methodology and the way you will phrase your conclusions. Anything that does not align must be fixed now, not in the viva."]]]],
+    ['Statement of the Problem', [
+      [
+        ['Narrow the Topic to a Specific Population and Setting', [
+          'Replace broad subjects with a defined group, place, and period',
+          'Move from “student engagement” to “grade 9 algebra students in 3 rural districts, 2022–2025”',
+          'Apply the 4W test: who, where, what, and when',
+        ]],
+        ['Gather Evidence Before Drafting', [
+          'Collect institutional data, national statistics, audit results, or quality reports',
+          'Prefer sources published within the last 5 years for prevalence claims',
+          'Record exact figures and their denominators, since reviewers check them',
+        ]],
+        ['Name the Gap Precisely', 'Whether it’s a Population, Methodological, Evidence, or Practical Gap.'],
+        ['Quantify the Impact', [
+          'Attach at least 1 number to the shortfall: a rate, a percentage, a cost, or a count',
+          'Compare that figure to a benchmark, a prior year, or a peer group',
+          'Avoid vague intensifiers such as “many,” “significant,” or “alarming”',
+        ]],
+        ['State the Consequence of Inaction', [
+          'Identify who bears the cost: students, patients, staff, customers, or the organization',
+          'Describe the cost in the currency of the field: outcomes, safety events, revenue, or turnover',
+          'Keep it factual; do not shift into advocacy language',
+        ]],
+        ['Draft, then Cut', [
+          'Write the full passage without worrying about length',
+          'Remove sentences that describe the field generally rather than the gap specifically',
+          'Check that every remaining sentence maps to 1 of the 5 core components',
+          'Read the first sentence alone: it should still convey the problem',
+        ]],
+      ],
+    ]],
 
-  ["Engineering Goals",[
-   [["Define the Real-World Need (Not Just a Problem)","Identify the exact practical problem you are trying to solve.","Clearly specify your target user, system, or operational environment (e.g., “To reduce thermal dissipation in low-cost solar inverters for rural households”)."],
-    ["Formulate the Primary Engineering Goal","State the main artifact, device, software, or process you intend to create, design, or improve.","Use a clear sentence structure: “My/Our engineering goal is to [create/improve] [specific system/product] to [solve specific problem or perform specific task].”"],
-    ["Apply the SMART Framework","Ensure your goals and sub-goals are:",["Specific (targeted action)","Measurable (tied to a numerical benchmark)","Achievable (realistic with available resources and time)","Relevant (directly addresses the engineering gap)","Time-bound (mapped to project milestones and deliverables)"]],
-    ["Define Concrete Deliverables","List the tangible or intangible outputs of your research (e.g., a physical prototype, a functional software module, a test dataset, or a technical design blueprint)."]]]],
+    ['Hypothesis', [
+      [
+        ['Ask a Question', 'Writing a hypothesis begins with a research question that you want to answer. The question should be focused, specific, and researchable within the constraints of your project.'],
+        ['Do Some Preliminary Research', 'Your initial answer to the question should be based on what is already known about the topic. Look for theories and previous studies to help you form educated assumptions about what your research will find.'],
+        ['Formulate Your Hypothesis', 'Now you should have some idea of what you expect to find. Write your initial answer to the question in a clear, concise sentence.'],
+        ['Refine Your Hypothesis', 'You need to make sure your hypothesis is specific and testable. There are various ways of phrasing a hypothesis, but all the terms you use should have clear definitions, and the hypothesis should contain:',
+          ['The relevant variables', 'The specific group being studied', 'The predicted outcome of the experiment or analysis']],
+        ['Write a Null Hypothesis', 'If your research involves statistical hypothesis testing, you will also have to write a null hypothesis. The null hypothesis is the default position that there is no association between the variables. The null hypothesis is written as H0, while the alternative hypothesis is H1 or Ha.'],
+        ['Phrase Your Hypothesis in 3 Ways', 'To identify the variables, you can write a simple prediction in if…then form, state the predicted relationship between them, or what difference you expect to find between them.'],
+      ],
+    ]],
 
-  ["Risks and Hazards",[
-   [["Identify the Hazards",["Break down procedures: List every step of your experimental design, field collection, or protocol.","Categorize the sources: Look for physical, chemical, biological, psychological, or data/privacy hazards:",["Chemical/Biological: Toxic reagents, pathogens, biohazards, or flammable materials.","Physical/Environmental: Heavy machinery, extreme weather on field trips, high voltages, or sharp instruments.","Human/Ethical: Posing sensitive questions, handling confidential data, or vulnerable participant groups."]]],
-    ["Determine Who Might Be Harmed and How",["Identify affected groups: Note whether the danger impacts the researcher, lab assistants, participants, animals, or the surrounding community.","Describe the mechanism: Explain how the harm could occur (e.g., accidental skin contact with a corrosive acid, data breach of participant identities, or heat exhaustion during outdoor sampling)."]]],
-   [["Establish Control and Mitigation Measures","Apply the hierarchy of controls:",["Elimination / Substitution: Remove the hazard or replace it with a safer alternative.","Engineering Controls: Use fume hoods, biosafety cabinets, or machine guards.","Administrative Controls: Limit exposure time, implement standard operating procedures (SOPs), or provide safety training.","Personal Protective Equipment (PPE): Specify required gear (e.g., lab coats, goggles, gloves, respirators)."]],
-    ["Outline Emergency and Disposal Protocols",["Accident response: State what steps will be taken if something goes wrong (e.g., spill kits, eye-wash stations, first aid, or emergency contacts).","Waste management: Detail how hazardous chemical waste, sharps, or biological samples will be safely neutralized and disposed of according to institutional guidelines."]]],
-   [["Document and Review",["Draft the section clearly: Write out your findings into a formal “Risk and Safety” or “Methodological Limitations and Risks” subsection of your research plan or manuscript.","Seek approvals: Submit your risk assessment to your institution’s Ethics Board, Biosafety Committee, or supervisor for formal review before starting data collection."]]]]],
+    ['Significance of the Study', [
+      [
+        ['Restate the Research Problem and Gap in One Sentence', 'Anchor the reader in what is missing from current knowledge or practice.'],
+        ['State the Contribution', 'Say plainly what new knowledge, evidence or insight your study will produce.'],
+        ['Identify the Beneficiaries', 'Name specific groups: researchers in the field, a profession, a policy area, an organisation, a community, future students. Be concrete.'],
+        ['Explain How Each Group Benefits', 'For every beneficiary, give a short, plausible outcome rather than a vague claim.'],
+        ['Connect to Theory and Practice', 'Separate the theoretical contribution from the practical implications so the examiner sees both.'],
+        ['Keep It Realistic', 'Match your claims to your study’s scope and sample. Overclaiming is the fastest way to lose credibility.'],
+      ],
+    ]],
 
-  ["Definition of Terms",[
-   [["Identify Key Terms and Variables",["Review your research title, research questions, hypotheses, and conceptual framework.","Pull out major independent and dependent variables, technical or scientific jargon, unfamiliar constructs, and any acronyms used.","Skip common, everyday words that do not need special clarification."]],
-    ["Choose the Right Definition Type",["Conceptual Definition: The general or dictionary/academic meaning of a term derived from literature, books, or scholarly journals.","Operational Definition: How the term is specifically measured, used, or observed within your particular study (e.g., instead of just defining “academic performance” as general learning success, define it operationally as “measured by the student’s final grade point average in Mathematics”)."]],
-    ["Organize and Format the List",["Write a brief introductory sentence (e.g., “For the purpose of this study, the following terms are defined operationally…”).","Arrange the terms in alphabetical order.","Format the terms consistently — such as bolding the term, followed by a period or dash, and then the definition."]]]]]],
- "Methodology Writing":["Research Design","Participants","Instruments","Procedure"].map(n=>[n,gen(1)]),
- "Results Writing":["Summary of Findings","Tables and Figures","Key Patterns"].map(n=>[n,gen(1)]),
- "Discussion Writing":["Interpretation","Implications","Limitations","Future Work"].map(n=>[n,gen(1)])
+    ['Scope and Limitation', [
+      [
+        ['Restate Your Aim and Research Questions', 'Open the section by re-anchoring the reader to what the study sets out to achieve. The scope grows directly out of the aim.'],
+        ['State What the Study Covers', 'Work through the six dimensions above — population, place, period, variables, method — and write a sentence or two for each that applies.'],
+      ],
+      [
+        ['State What the Study Excludes', 'Name the groups, settings, variables or methods you are deliberately leaving out. This is where scope shades into delimitations.'],
+        ['Give a Brief Reason for Each Major Boundary', '“X was excluded because…” shows the boundary is a considered decision, not an oversight.'],
+        ['Check Alignment', 'Confirm that the scope matches your research questions, methodology and the way you will phrase your conclusions. Anything that does not align must be fixed now, not in the viva.'],
+      ],
+    ]],
+
+    ['Engineering Goals', [
+      [
+        ['Define the Real-World Need (Not Just a Problem)', 'Identify the exact practical problem you are trying to solve.', 'Clearly specify your target user, system, or operational environment (e.g., “To reduce thermal dissipation in low-cost solar inverters for rural households”).'],
+        ['Formulate the Primary Engineering Goal', 'State the main artifact, device, software, or process you intend to create, design, or improve.', 'Use a clear sentence structure: “My/Our engineering goal is to [create/improve] [specific system/product] to [solve specific problem or perform specific task].”'],
+        ['Apply the SMART Framework', 'Ensure your goals and sub-goals are:',
+          [
+            'Specific (targeted action)',
+            'Measurable (tied to a numerical benchmark)',
+            'Achievable (realistic with available resources and time)',
+            'Relevant (directly addresses the engineering gap)',
+            'Time-bound (mapped to project milestones and deliverables)',
+          ]],
+        ['Define Concrete Deliverables', 'List the tangible or intangible outputs of your research (e.g., a physical prototype, a functional software module, a test dataset, or a technical design blueprint).'],
+      ],
+    ]],
+
+    ['Risks and Hazards', [
+      [
+        ['Identify the Hazards', [
+          'Break down procedures: List every step of your experimental design, field collection, or protocol.',
+          'Categorize the sources: Look for physical, chemical, biological, psychological, or data/privacy hazards:',
+          [
+            'Chemical/Biological: Toxic reagents, pathogens, biohazards, or flammable materials.',
+            'Physical/Environmental: Heavy machinery, extreme weather on field trips, high voltages, or sharp instruments.',
+            'Human/Ethical: Posing sensitive questions, handling confidential data, or vulnerable participant groups.',
+          ],
+        ]],
+        ['Determine Who Might Be Harmed and How', [
+          'Identify affected groups: Note whether the danger impacts the researcher, lab assistants, participants, animals, or the surrounding community.',
+          'Describe the mechanism: Explain how the harm could occur (e.g., accidental skin contact with a corrosive acid, data breach of participant identities, or heat exhaustion during outdoor sampling).',
+        ]],
+      ],
+      [
+        ['Establish Control and Mitigation Measures', 'Apply the hierarchy of controls:',
+          [
+            'Elimination / Substitution: Remove the hazard or replace it with a safer alternative.',
+            'Engineering Controls: Use fume hoods, biosafety cabinets, or machine guards.',
+            'Administrative Controls: Limit exposure time, implement standard operating procedures (SOPs), or provide safety training.',
+            'Personal Protective Equipment (PPE): Specify required gear (e.g., lab coats, goggles, gloves, respirators).',
+          ]],
+        ['Outline Emergency and Disposal Protocols', [
+          'Accident response: State what steps will be taken if something goes wrong (e.g., spill kits, eye-wash stations, first aid, or emergency contacts).',
+          'Waste management: Detail how hazardous chemical waste, sharps, or biological samples will be safely neutralized and disposed of according to institutional guidelines.',
+        ]],
+      ],
+      [
+        ['Document and Review', [
+          'Draft the section clearly: Write out your findings into a formal “Risk and Safety” or “Methodological Limitations and Risks” subsection of your research plan or manuscript.',
+          'Seek approvals: Submit your risk assessment to your institution’s Ethics Board, Biosafety Committee, or supervisor for formal review before starting data collection.',
+        ]],
+      ],
+    ]],
+
+    ['Definition of Terms', [
+      [
+        ['Identify Key Terms and Variables', [
+          'Review your research title, research questions, hypotheses, and conceptual framework.',
+          'Pull out major independent and dependent variables, technical or scientific jargon, unfamiliar constructs, and any acronyms used.',
+          'Skip common, everyday words that do not need special clarification.',
+        ]],
+        ['Choose the Right Definition Type', [
+          'Conceptual Definition: The general or dictionary/academic meaning of a term derived from literature, books, or scholarly journals.',
+          'Operational Definition: How the term is specifically measured, used, or observed within your particular study (e.g., instead of just defining “academic performance” as general learning success, define it operationally as “measured by the student’s final grade point average in Mathematics”).',
+        ]],
+        ['Organize and Format the List', [
+          'Write a brief introductory sentence (e.g., “For the purpose of this study, the following terms are defined operationally…”).',
+          'Arrange the terms in alphabetical order.',
+          'Format the terms consistently — such as bolding the term, followed by a period or dash, and then the definition.',
+        ]],
+      ],
+    ]],
+  ],
+
+  'Methodology Writing': [
+    ['Input, Process, and Output', [
+      [
+        ['Identify the Output', 'Firstly, you need to determine what output or dependent variable is relevant to your research question. For instance, if your research revolves around the effects of different types of fertilizer on plant growth, the output would be a measure of plant growth (such as height).'],
+        ['Pinpoint the Inputs', 'Visualize your output as the product of a machine. What ingredients need to be fed into this machine to generate the output? These elements are your inputs. In our example, the inputs would be the different types of fertilizer you intend to test. You can also include the amount of fertilizer used.'],
+      ],
+      [
+        ['Describe the Process', 'Next, you need to describe the process, which is the process that generates the output from the inputs. In your case, this would be the act of planting the seeds and applying different types of fertilizer.'],
+        ['Consolidate Everything Into a Figure', 'Finally, you should consolidate all the identified outputs, inputs, and processes into a single figure. The Input-Process-Output (IPO) conceptual framework. The process should be placed in the center of the figure, with the inputs on the left, and the output on the right.'],
+        ['Remember', [
+          'The output or dependent variable is the result you aim to discover in your research.',
+          'The inputs are the elements you are manipulating or testing in your experiment.',
+          'The process is the method or steps you’re employing to obtain the output from the inputs.',
+        ]],
+      ],
+    ]],
+
+    ['Rationale', [
+      [
+        ['Define the Process to be Diagrammed', 'Write its title at the top of the work surface.'],
+        ['Determine the Process’s Scope and Boundaries', 'Where or when does the process start? Where or when does it end? Determine how much detail to include in the diagram.'],
+        ['Determine the Process’s Steps and Activities, and Write Each on a Card or Sticky Note'],
+        ['Arrange the activities in proper sequence.'],
+        ['When all activities are included and everyone agrees the sequence is correct, draw arrows to show the process’s flow.'],
+      ],
+      [
+        ['Review the Flowchart', 'Review it with the people involved in the process to see whether they agree the process is shown correctly. A good way to do this is to walk through the process.'],
+        ['Determine Whether the Flowchart is Correct', 'If so, you’re done. If not, return to step three and work through the steps again.'],
+      ],
+    ]],
+
+    ['Materials and Equipments', [
+      [
+        ['Determine All the Needed Materials in the Study', 'List it down in Chronological Order with Bullets. Ensure to specify the materials needed including their dimensions and quantity.'],
+        ['Determine All the Needed Equipment in the Study', 'List it down in Chronological Order with Bullets. Ensure to specify the equipment needed including their dimensions and quantity. Include PPEs and other safety equipment.'],
+        ['Double-check Your List', 'Check whether you have listed everything precisely and accurately.'],
+      ],
+    ]],
+
+    ['Procedures', [
+      [
+        ['Identify the Main Steps in Your Procedure', 'Label the Main Steps with Arabic numerals (1, 2, 3) and briefly explain what is happening in this step. Ensure that every step of your procedure is included so that this will serve as a guide in your research output procedure.'],
+        ['Identify the Sub-Steps and Observe Proper Hierarchy', 'Insert your sub-parts under their respective main parts. Follow the correct hierarchy of indentation and labeling (a, b, c / i, ii, iii…). If there is no sub-part for it, then you may skip. Depending on your teacher and format.'],
+        ['Double-check Your Procedures', 'Check whether you have listed everything precisely and accurately.'],
+      ],
+    ]],
+
+    ['Testing Different Products', [
+      [
+        ['State Your Set-ups and Testing Type', 'Briefly state your set-ups using a table and identify whether you’ll be conducting a non-standardized or standardized testing.'],
+        ['Explain the Process of Testings that Every Set-up Will Undergo', 'State the processes and objective of the testings. Specify what will be used, and where it will be done.'],
+        ['Double-check Your Testings', 'Check whether you have identified every testing precisely and accurately.'],
+      ],
+    ]],
+
+    ['Discussion of Statistical Treatment', [
+      [
+        ['Identify How the Results Will Be Collected', 'Describe how the results will be collected in each testing in all set-ups for every trial.'],
+        ['Identify the Statistical Treatment To Be Used', 'Determine your Statistical Treatment and explain how this will be used to interpret the results. Ensure that your Statistical Treatment is appropriate.'],
+        ['Double-check Your Testings', 'Check whether you have identified everything precisely and accurately.'],
+      ],
+    ]],
+  ],
+  'Results Writing': ['Summary of Findings', 'Tables and Figures', 'Key Patterns'].map((n) => [n, gen(1)]),
+  'Discussion Writing': ['Interpretation', 'Implications', 'Limitations', 'Future Work'].map((n) => [n, gen(1)]),
 };
 
-const store={};
-try{Object.assign(store,JSON.parse(localStorage.getItem('drafts')||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem('drafts',JSON.stringify(store))}catch(e){}};
-const checks={};
-try{Object.assign(checks,JSON.parse(localStorage.getItem('checks')||'{}'))}catch(e){}
-const saveChecks=()=>{try{localStorage.setItem('checks',JSON.stringify(checks))}catch(e){}};
+/* =====================================================
+   Saved state (drafts + checked steps)
+   ===================================================== */
+const store  = load('drafts');
+const checks = load('checks');
+const saveDrafts = () => persist('drafts', store);
+const saveChecks = () => persist('checks', checks);
 
-/* build accordion */
-const acc=$('#acc');
-Object.entries(DATA).forEach(([sec,items],si)=>{
-  const li=document.createElement('li');
-  li.innerHTML=`<button class="head" aria-expanded="false" aria-controls="n${si}"><span class="chev">›</span><span class="dot"></span><span class="lbl fun">${sec}</span></button>
-  <div class="nums hidden" id="n${si}">${items.map((it,i)=>`<button title="${it[0]}" data-s="${si}" data-i="${i}">${i+1}</button>`).join('')}</div>`;
+const SECTIONS = Object.values(DATA);
+
+/* =====================================================
+   Activities accordion
+   ===================================================== */
+const acc = $('#acc');
+
+Object.entries(DATA).forEach(([section, items], si) => {
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <button class="head" aria-expanded="false" aria-controls="n${si}">
+      <span class="chev">›</span><span class="dot"></span><span class="lbl fun">${section}</span>
+    </button>
+    <div class="nums hidden" id="n${si}">
+      ${items.map((it, i) => `<button title="${esc(it[0])}" data-s="${si}" data-i="${i}">${i + 1}</button>`).join('')}
+    </div>`;
   acc.append(li);
 });
-acc.addEventListener('click',e=>{
-  const head=e.target.closest('.head');
-  if(head){const open=head.getAttribute('aria-expanded')==='true';
-    head.setAttribute('aria-expanded',!open);$('#'+head.getAttribute('aria-controls')).classList.toggle('hidden',open);return}
-  const n=e.target.closest('.nums button');
-  if(n)openViewer(+n.dataset.s,+n.dataset.i);
+
+acc.addEventListener('click', (e) => {
+  const head = e.target.closest('.head');
+  if (head) {
+    const open = head.getAttribute('aria-expanded') === 'true';
+    head.setAttribute('aria-expanded', !open);
+    $('#' + head.getAttribute('aria-controls')).classList.toggle('hidden', open);
+    return;
+  }
+  const num = e.target.closest('.nums button');
+  if (num) openViewer(+num.dataset.s, +num.dataset.i);
 });
-$('#a-prev').onclick=()=>$$('.head[aria-expanded=true]').forEach(h=>h.click());
-$('#a-close').onclick=()=>{$('#activities').classList.add('hidden');$('#viewer').classList.add('hidden')};
 
-const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const list=a=>`<ul>${a.map((x,i)=>typeof x==='string'?`<li>${esc(x)}${Array.isArray(a[i+1])?list(a[i+1]):''}</li>`:'').join('')}</ul>`;
+$('#a-prev').onclick  = () => $$('.head[aria-expanded=true]').forEach((h) => h.click());
+$('#a-close').onclick = () => { $('#activities').classList.add('hidden'); $('#viewer').classList.add('hidden'); };
 
-/* completion: a stage is done when every step on all of its pages is checked */
-const stageDone=(s,i)=>Object.values(DATA)[s][i][1].every((steps,p)=>{const c=checks[`${s}-${i}-${p}`]||[];return steps.every((_,j)=>c[j])});
-function updateDone(){
-  $$('.nums button').forEach(b=>b.classList.toggle('done',stageDone(+b.dataset.s,+b.dataset.i)));
-  $$('.acc .head .dot').forEach((d,si)=>{
-    const all=Object.values(DATA)[si].every((_,i)=>stageDone(si,i));
-    d.classList.toggle('done',all);d.textContent=all?'\u2713':'';
+/* ---------- Completion: a stage is done when every one of its steps is checked ---------- */
+// All pages of a stage are shown together on one scrolling page.
+const stepsOf = (s, i) => SECTIONS[s][i][1].flat();
+
+const stageDone = (s, i) => {
+  const c = checks[`${s}-${i}`] || [];
+  return stepsOf(s, i).every((_, j) => c[j]);
+};
+
+function updateDone() {
+  $$('.nums button').forEach((b) => b.classList.toggle('done', stageDone(+b.dataset.s, +b.dataset.i)));
+  $$('.acc .head .dot').forEach((dot, si) => {
+    const all = SECTIONS[si].every((_, i) => stageDone(si, i));
+    dot.classList.toggle('done', all);
+    dot.textContent = all ? '✓' : '';
   });
 }
+
+// Migrate older per-page saves ("s-i-p") into one save per stage ("s-i")
+(function migrate() {
+  let changed = false;
+  SECTIONS.forEach((items, s) => items.forEach((it, i) => {
+    const nk = `${s}-${i}`, pages = it[1];
+    if (!pages.some((_, p) => `${nk}-${p}` in store || `${nk}-${p}` in checks)) return;
+
+    const texts = pages.map((_, p) => store[`${nk}-${p}`]).filter(Boolean);
+    if (texts.length && store[nk] === undefined) store[nk] = texts.join('\n\n');
+
+    const merged = []; let offset = 0;
+    pages.forEach((steps, p) => {
+      const c = checks[`${nk}-${p}`] || [];
+      steps.forEach((_, j) => { merged[offset + j] = !!c[j]; });
+      offset += steps.length;
+    });
+    if (merged.some(Boolean) && checks[nk] === undefined) checks[nk] = merged;
+
+    pages.forEach((_, p) => { delete store[`${nk}-${p}`]; delete checks[`${nk}-${p}`]; });
+    changed = true;
+  }));
+  if (changed) { saveDrafts(); saveChecks(); }
+})();
 updateDone();
-/* viewer */
-let cur={s:0,flat:[],k:0};
-function openViewer(s,i){
-  const items=Object.values(DATA)[s];
-  const flat=[];items.forEach((it,ii)=>it[1].forEach((steps,p)=>flat.push({ii,name:it[0],steps,p,of:it[1].length})));
-  cur={s,flat,k:flat.findIndex(f=>f.ii===i)};
-  $$('.nums button').forEach(b=>b.setAttribute('aria-current',b.dataset.s==s&&b.dataset.i==i));
-  render();$('#viewer').classList.remove('hidden');$('#viewer').scrollIntoView({block:'start'});
+
+/* =====================================================
+   Step viewer (one stage = one scrolling page)
+   ===================================================== */
+let cur = { s: 0, i: 0 };
+
+const list = (arr) =>
+  `<ul>${arr.map((x, i) =>
+    typeof x === 'string' ? `<li>${esc(x)}${Array.isArray(arr[i + 1]) ? list(arr[i + 1]) : ''}</li>` : ''
+  ).join('')}</ul>`;
+
+function openViewer(s, i) {
+  cur = { s, i };
+  render();
+  $('#viewer').classList.remove('hidden');
+  $('#viewer').scrollIntoView({ block: 'start' });
 }
-function updatePill(){
-  const f=cur.flat[cur.k],c=checks[`${cur.s}-${f.ii}-${f.p}`]||[],n=f.steps.filter((_,j)=>c[j]).length;
-  const el=$('#v-done');el.textContent=`${n}/${f.steps.length} steps`;el.classList.toggle('full',n===f.steps.length);
+
+function updatePill() {
+  const { s, i } = cur;
+  const steps = stepsOf(s, i), c = checks[`${s}-${i}`] || [];
+  const n = steps.filter((_, j) => c[j]).length;
+  const pill = $('#v-done');
+  pill.textContent = `${n}/${steps.length} steps`;
+  pill.classList.toggle('full', n === steps.length);
 }
-function render(){
-  const f=cur.flat[cur.k], key=`${cur.s}-${f.ii}-${f.p}`;
-  $('#v-title').textContent=`${f.ii+1} - ${f.name}`;
-  $('#v-pg').textContent=f.of>1?`page ${f.p+1}/${f.of}`:'';
-  $('#steps').innerHTML=`<h3 class="fun">Steps</h3>`+f.steps.map((st,j)=>`<div class="step"><label><input type="checkbox" data-j="${j}"${(checks[key]||[])[j]?' checked':''}><span>${esc(st[0])}</span></label>${st.slice(1).map(b=>typeof b==='string'?`<p>${esc(b)}</p>`:list(b)).join('')}</div>`).join('');
-  const w=$('#write');w.value=store[key]||'';w.dataset.key=key;
+
+function render() {
+  const { s, i } = cur;
+  const items = SECTIONS[s], key = `${s}-${i}`, steps = stepsOf(s, i);
+
+  $$('.nums button').forEach((b) => b.setAttribute('aria-current', b.dataset.s == s && b.dataset.i == i));
+  $('#v-title').textContent = `${i + 1} - ${items[i][0]}`;
+
+  $('#steps').innerHTML = '<h3 class="fun">Steps</h3>' + steps.map((st, j) => `
+    <div class="step">
+      <label><input type="checkbox" data-j="${j}"${(checks[key] || [])[j] ? ' checked' : ''}><span>${esc(st[0])}</span></label>
+      ${st.slice(1).map((b) => typeof b === 'string' ? `<p>${esc(b)}</p>` : list(b)).join('')}
+    </div>`).join('');
+  $('#steps').scrollTop = 0;
+
+  const w = $('#write');
+  w.value = store[key] || '';
+  w.dataset.key = key;
+
   updatePill();
-  $('#v-prev').disabled=cur.k===0;$('#v-next').disabled=cur.k===cur.flat.length-1;
+  $('#v-prev').disabled = i === 0;
+  $('#v-next').disabled = i === items.length - 1;
 }
-$('#v-prev').onclick=()=>{cur.k--;render()};
-$('#v-next').onclick=()=>{cur.k++;render()};
-$('#v-close').onclick=()=>$('#viewer').classList.add('hidden');
-$('#steps').addEventListener('change',e=>{
-  const cb=e.target.closest('input[type=checkbox]');if(!cb)return;
-  const f=cur.flat[cur.k],key=`${cur.s}-${f.ii}-${f.p}`;
-  const arr=checks[key]||(checks[key]=[]);arr[+cb.dataset.j]=cb.checked;
-  saveChecks();updateDone();updatePill();
+
+$('#v-prev').onclick  = () => { cur.i--; render(); };
+$('#v-next').onclick  = () => { cur.i++; render(); };
+$('#v-close').onclick = () => $('#viewer').classList.add('hidden');
+
+$('#steps').addEventListener('change', (e) => {
+  const cb = e.target.closest('input[type=checkbox]');
+  if (!cb) return;
+  const key = `${cur.s}-${cur.i}`;
+  (checks[key] || (checks[key] = []))[+cb.dataset.j] = cb.checked;
+  saveChecks(); updateDone(); updatePill();
 });
-$('#write').addEventListener('input',e=>{store[e.target.dataset.key]=e.target.value;save()});
 
+$('#write').addEventListener('input', (e) => { store[e.target.dataset.key] = e.target.value; saveDrafts(); });
 
-/* quiz deck */
-const QL="Characteristics of Qualitative Research",QN="Characteristics of Quantitative Research";
-const RES3=["Quantitative Research","Qualitative Research","Mixed Method Research"];
-/* Q(question, options, correct index OR array of indexes for "select all", optional heading). **text** = highlighted */
-const Q=(q,opts,a=0,h)=>({q,opts,a,h});
-const QUIZ={title:"Research Time!",cards:[
- Q("“It is a **systematic and disciplined investigation** designed to discover, interpret, and revise facts, theories, or practical applications. By combining structured methodologies with empirical data or critical analysis, it moves beyond mere information-gathering to establish new insights and validate existing knowledge.” Based on what you studied from the website, what does this definition refer to?",["Research","Quantitative Research","Qualitative Research","Mixed Method Research"]),
- Q("This type of research mainly focuses on gathering participants’ experiences, perceptions, and behavior.",["Qualitative Research","Quantitative Research","Mixed Method Research"]),
- Q("What question or questions the Qualitative Research answers?",["“How?” and “Why?”","“How?” only","“How Many?” only","“Why?” only","“How Much?” only","“How Many?” and “How Much?”"]),
- Q("It is a type of Research approach that collects and analyzes non-numerical data to understand concepts, opinions, or experiences.",["Qualitative Research","Quantitative Research","Mixed Method Research"]),
+/* ---------- Copy ---------- */
+const ICON_COPY = '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>';
+const ICON_OK   = '<path d="M5 12l5 5 9-10"/>';
 
- Q("This characteristic of Qualitative Research enables it to be subject to interference, impressions, and an inductive form of reasoning. This identifies pattern and assumptions for a group or sample.",["Interpretative","Naturalistic","Socially Constructed Reality","Emic Perspective","Primacy of Subject Matter","Reflexivity"],0,QL),
- Q("This characteristic in Qualitative Research means the study was conducted in a field or setting where participants live, work, and play rather than an artificial or controlled environment.",["Naturalistic","Reflexivity","Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Primacy of Subject Matter"],0,QL),
- Q("This characteristic emphasizes the importance of studying individuals in their natural environment to gain authentic insights into their experiences and behaviors.",["Naturalistic Setting","Naturalistic","Primacy of Subject Matter","Interpretative Analysis","Socially Constructed Reality","Emic Perspective"],0,QL),
- Q("This characteristic helps define human behaviors and experiences are complex and influenced by multiple interrelated factors that cannot be easily isolated and measured quantitatively.",["Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Socially Constructed Reality","Emic Perspective","Primacy of Subject Matter"],0,QL),
- Q("This highlights the subjective nature of qualitative research given that the data gathered are non-numerical and mainly revolving on human behaviors and experiences, and that the role of researchers are necessary in explaining the collected data.",["Interpretative Analysis","Reflexivity","Complex and Interwoven Variables","Interpretative","Naturalistic Setting","Socially Constructed Reality"],0,QL),
- Q("This refers to how researchers’ own thoughts, feelings, and behaviors interact with the research site and the research itself.",["Reflexivity","Naturalistic","Interpretative","Complex and Interwoven Variables","Emic Perspective","Primacy of Subject Matter"],0,QL),
- Q("This characteristic states that the reality if subjective and is different between each individual based on their social context as it is constantly created and shared through interactions and culture.",["Socially Constructed Reality","Interpretative","Emic Perspective","Complex and Interwoven Variables","Interpretative Analysis","Naturalistic Setting"],0,QL),
- Q("This characteristic focuses and emphasizes on understanding the experiences of the individuals or participants rather than testing hypotheses and using standard statistical framework.",["Primacy of Subject Matter","Emic Perspective","Naturalistic Setting","Complex and Interwoven Variables","Interpretative Analysis","Interpretative"],0,QL),
- Q("This characteristic focuses on understanding the topic, field, or phenomenon being studied through the lens of the participants, capturing their interpretations and meanings.",["Emic Perspective","Primacy of Subject Matter","Naturalistic Setting","Socially Constructed Reality","Complex and Interwoven Variables","Reflexivity"],0,QL),
+$('#copy').onclick = async () => {
+  const w = $('#write'), txt = w.value;
+  if (!txt.trim()) { w.focus(); return; }
+  let ok = false;
+  try { await navigator.clipboard.writeText(txt); ok = true; } catch (e) {}
+  if (!ok) { try { w.select(); ok = document.execCommand('copy'); w.setSelectionRange(txt.length, txt.length); } catch (e) {} }
+  if (!ok) return;
+  const btn = $('#copy');
+  btn.classList.add('done');
+  $('#copy-ic').innerHTML = ICON_OK;
+  $('#copied').classList.remove('hidden');
+  setTimeout(() => {
+    btn.classList.remove('done');
+    $('#copy-ic').innerHTML = ICON_COPY;
+    $('#copied').classList.add('hidden');
+  }, 1600);
+};
 
- Q("This type of research approach utilizes numerical data to present evidences and information of a study.",RES3),
- Q("It is a structured and an empirical approach that tests hypotheses and examines relationships, patterns, and trends between variables involved. What type of research approach is this?",RES3),
- Q("Which among the choices does the Quantitative Research answers?",["“How Many?” and “How Much?”","“Why?” only","“How Many?” only","“How?” and “Why?”","“How?” only","“How Much?” only"]),
- Q("As mentioned in the website, what are the three designs that the Quantitative Research can be used for? (Select all that applies.)",["Descriptive","Correlational","Experimental","Phenomological","Ethnographic","Grounded","Case"],[0,1,2]),
- Q("This type of Quantitative Research design is systematic in nature that collects, measures, and analyzes data in order to provide interpretation of hat the study focuses on.",["Descriptive Quantitative Research","Quantitative Correlational","Quantitative Experimental Research"]),
- Q("It is a type of Quantitative Research design wherein researchers do not manipulate any variable involved in the study, instead, they let it naturally occur and analyzes the data collected using statistical methods.",["Quantitative Correlational Research","Descriptive Quantitative Research","Quantitative Experimental Research"]),
- Q("This states that the Quantitative Research relies heavily on factual, measurable data rather than personal opinions and interpretations.",["Objective","Measurable Variables","Structured Standard Instruments","Sampling","Numerical Data","Replication"],0,QN)
-]};
-const fmt=t=>esc(t).replace(/\*\*(.+?)\*\*/g,'<mark>$1</mark>');
-const isMulti=c=>Array.isArray(c.a), answersOf=c=>isMulti(c)?c.a:[c.a];
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let qs={i:0,score:0};
-function renderDeck(){
-  const n=QUIZ.cards.length;
-  $('#deck-title').textContent=QUIZ.title;
-  $('#deck-sub').textContent=`Deck · ${n} card${n===1?'':'s'}`;
-  $('#cards-h').textContent=`Cards (${n})`;
-  $('#cards').innerHTML=QUIZ.cards.map(c=>{const ans=answersOf(c);return `<article class="qcard">${c.h?`<div class="qh">${esc(c.h)}</div>`:''}<div class="qt">${fmt(c.q)}</div><ul>${c.opts.map((o,k)=>{const ok=ans.includes(k);return `<li class="${ok?'ok':''}"><span class="ic" aria-hidden="true">${ok?'✓':'✕'}</span><span>${esc(o)}</span></li>`}).join('')}</ul></article>`}).join('');
+/* ---------- Clear (with confirmation) ---------- */
+let lastFocus = null;
+function openConfirm() {
+  if (!$('#write').value) return;
+  lastFocus = document.activeElement;
+  $('#confirm').classList.remove('hidden');
+  $('#c-no').focus();
 }
-function showStudy(on){
-  $('#materials').classList.toggle('hidden',on);$('#study').classList.toggle('hidden',!on);
-  $('#study-btn').classList.toggle('hidden',on);
+function closeConfirm() {
+  $('#confirm').classList.add('hidden');
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
 }
-function startStudy(){qs={i:0,score:0};showStudy(true);renderQ();$('#quiz').scrollIntoView({block:'start'})}
-function renderQ(){
-  const n=QUIZ.cards.length,box=$('#study');
-  if(qs.i>=n){
-    box.innerHTML=`<div class="sq score"><p class="big">${qs.score}/${n}</p><p>${qs.score===n?'Perfect score! You know your research basics.':'Nice try! Review the deck and give it another go.'}</p><div class="row"><button class="studybtn" id="s-retry">Try again</button><button class="ghost" id="s-back">Back to deck</button></div></div>`;
-    $('#s-retry').onclick=startStudy;$('#s-back').onclick=()=>showStudy(false);return;
+$('#clear').onclick = openConfirm;
+$('#c-no').onclick = closeConfirm;
+$('#c-yes').onclick = () => {
+  const w = $('#write');
+  w.value = '';
+  store[w.dataset.key] = '';
+  saveDrafts(); closeConfirm(); w.focus();
+};
+$('#confirm').addEventListener('click', (e) => { if (e.target.id === 'confirm') closeConfirm(); });
+document.addEventListener('keydown', (e) => {
+  if ($('#confirm').classList.contains('hidden')) return;
+  if (e.key === 'Escape') { closeConfirm(); return; }
+  if (e.key === 'Tab') { // keep focus inside the dialog
+    const first = $('#c-no'), last = $('#c-yes');
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
-  const c=QUIZ.cards[qs.i],multi=isMulti(c);
-  box.innerHTML=`<div class="sq"><div class="sprog"><span>Question ${qs.i+1} of ${n}</span><div class="bar"><i style="width:${qs.i/n*100}%"></i></div><button class="ghost" id="s-exit">Exit</button></div>
-   ${c.h?`<p class="sh">${esc(c.h)}</p>`:''}<p class="qt">${fmt(c.q)}</p>
-   <div class="opts">${shuffle(c.opts.map((_,k)=>k)).map(k=>`<button class="opt" data-k="${k}"${multi?' aria-pressed="false"':''}>${esc(c.opts[k])}</button>`).join('')}</div>
-   <div class="sfoot">${multi?'<span class="fb">Select all that apply.</span><button class="studybtn" id="s-check">Check answer</button>':'<span class="fb" id="fb"></span>'}</div></div>`;
-  $('#s-exit').onclick=()=>showStudy(false);
-  if(multi){
-    $$('#study .opt').forEach(b=>b.onclick=()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.classList.toggle('sel',on)});
-    $('#s-check').onclick=()=>{const p=$$('#study .opt[aria-pressed=true]').map(b=>+b.dataset.k);if(p.length)grade(p)};
-  }else $$('#study .opt').forEach(b=>b.onclick=()=>grade([+b.dataset.k]));
+});
+
+/* =====================================================
+   Quiz
+   ===================================================== */
+const QL = 'Characteristics of Qualitative Research';
+const QN = 'Characteristics of Quantitative Research';
+const RES3 = ['Quantitative Research', 'Qualitative Research', 'Mixed Method Research'];
+
+// Q(question, options, correct index OR array of indexes for "select all", optional heading)
+// **text** = highlighted. The correct answer is listed first; options are shuffled in study mode.
+const Q = (q, opts, a = 0, h) => ({ q, opts, a, h });
+
+const QUIZ = {
+  title: 'Research Time!',
+  cards: [
+    Q('“It is a **systematic and disciplined investigation** designed to discover, interpret, and revise facts, theories, or practical applications. By combining structured methodologies with empirical data or critical analysis, it moves beyond mere information-gathering to establish new insights and validate existing knowledge.” Based on what you studied from the website, what does this definition refer to?', ['Research', 'Quantitative Research', 'Qualitative Research', 'Mixed Method Research']),
+    Q('This type of research mainly focuses on gathering participants’ experiences, perceptions, and behavior.', ['Qualitative Research', 'Quantitative Research', 'Mixed Method Research']),
+    Q('What question or questions the Qualitative Research answers?', ['“How?” and “Why?”', '“How?” only', '“How Many?” only', '“Why?” only', '“How Much?” only', '“How Many?” and “How Much?”']),
+    Q('It is a type of Research approach that collects and analyzes non-numerical data to understand concepts, opinions, or experiences.', ['Qualitative Research', 'Quantitative Research', 'Mixed Method Research']),
+
+    Q('This characteristic of Qualitative Research enables it to be subject to interference, impressions, and an inductive form of reasoning. This identifies pattern and assumptions for a group or sample.', ['Interpretative', 'Naturalistic', 'Socially Constructed Reality', 'Emic Perspective', 'Primacy of Subject Matter', 'Reflexivity'], 0, QL),
+    Q('This characteristic in Qualitative Research means the study was conducted in a field or setting where participants live, work, and play rather than an artificial or controlled environment.', ['Naturalistic', 'Reflexivity', 'Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Primacy of Subject Matter'], 0, QL),
+    Q('This characteristic emphasizes the importance of studying individuals in their natural environment to gain authentic insights into their experiences and behaviors.', ['Naturalistic Setting', 'Naturalistic', 'Primacy of Subject Matter', 'Interpretative Analysis', 'Socially Constructed Reality', 'Emic Perspective'], 0, QL),
+    Q('This characteristic helps define human behaviors and experiences are complex and influenced by multiple interrelated factors that cannot be easily isolated and measured quantitatively.', ['Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Socially Constructed Reality', 'Emic Perspective', 'Primacy of Subject Matter'], 0, QL),
+    Q('This highlights the subjective nature of qualitative research given that the data gathered are non-numerical and mainly revolving on human behaviors and experiences, and that the role of researchers are necessary in explaining the collected data.', ['Interpretative Analysis', 'Reflexivity', 'Complex and Interwoven Variables', 'Interpretative', 'Naturalistic Setting', 'Socially Constructed Reality'], 0, QL),
+    Q('This refers to how researchers’ own thoughts, feelings, and behaviors interact with the research site and the research itself.', ['Reflexivity', 'Naturalistic', 'Interpretative', 'Complex and Interwoven Variables', 'Emic Perspective', 'Primacy of Subject Matter'], 0, QL),
+    Q('This characteristic states that the reality if subjective and is different between each individual based on their social context as it is constantly created and shared through interactions and culture.', ['Socially Constructed Reality', 'Interpretative', 'Emic Perspective', 'Complex and Interwoven Variables', 'Interpretative Analysis', 'Naturalistic Setting'], 0, QL),
+    Q('This characteristic focuses and emphasizes on understanding the experiences of the individuals or participants rather than testing hypotheses and using standard statistical framework.', ['Primacy of Subject Matter', 'Emic Perspective', 'Naturalistic Setting', 'Complex and Interwoven Variables', 'Interpretative Analysis', 'Interpretative'], 0, QL),
+    Q('This characteristic focuses on understanding the topic, field, or phenomenon being studied through the lens of the participants, capturing their interpretations and meanings.', ['Emic Perspective', 'Primacy of Subject Matter', 'Naturalistic Setting', 'Socially Constructed Reality', 'Complex and Interwoven Variables', 'Reflexivity'], 0, QL),
+
+    Q('This type of research approach utilizes numerical data to present evidences and information of a study.', RES3),
+    Q('It is a structured and an empirical approach that tests hypotheses and examines relationships, patterns, and trends between variables involved. What type of research approach is this?', RES3),
+    Q('Which among the choices does the Quantitative Research answers?', ['“How Many?” and “How Much?”', '“Why?” only', '“How Many?” only', '“How?” and “Why?”', '“How?” only', '“How Much?” only']),
+    Q('As mentioned in the website, what are the three designs that the Quantitative Research can be used for? (Select all that applies.)', ['Descriptive', 'Correlational', 'Experimental', 'Phenomological', 'Ethnographic', 'Grounded', 'Case'], [0, 1, 2]),
+    Q('This type of Quantitative Research design is systematic in nature that collects, measures, and analyzes data in order to provide interpretation of hat the study focuses on.', ['Descriptive Quantitative Research', 'Quantitative Correlational', 'Quantitative Experimental Research']),
+    Q('It is a type of Quantitative Research design wherein researchers do not manipulate any variable involved in the study, instead, they let it naturally occur and analyzes the data collected using statistical methods.', ['Quantitative Correlational Research', 'Descriptive Quantitative Research', 'Quantitative Experimental Research']),
+    Q('This states that the Quantitative Research relies heavily on factual, measurable data rather than personal opinions and interpretations.', ['Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Sampling', 'Numerical Data', 'Replication'], 0, QN),
+    Q('This characteristic shows what Quantitative Research must have to be able to collect data in numerical form.', ['Measurable Variables', 'Objective', 'Structured Standard Instruments', 'Sampling', 'Numerical Data', 'Replication'], 0, QN),
+    Q('This states that a Quantitative Research utilizes standard measuring tools in order to gather accurate and objective results.', ['Structured Standard Instruments', 'Objective', 'Measurable Variables', 'Sampling', 'Numerical Data', 'Replication'], 0, QN),
+    Q('This characteristic presents that the researchers more often gather a set of variables from a larger group for convenient study and estimate assessments and information for the whole group.', ['Sampling', 'Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Numerical Data', 'Replication'], 0, QN),
+    Q('This characteristic describes the type of data used in this type of research approach that is used to analyze relationships and influences between variables.', ['Numerical Data', 'Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Sampling', 'Replication'], 0, QN),
+    Q('This characteristic helps validate and ensure that the results would be accurate and impartial by repeated execution of study through various settings.', ['Replication', 'Objective', 'Measurable Variables', 'Structured Standard Instruments', 'Sampling', 'Numerical Data'], 0, QN),
+    Q('A type of research approach that combines both quantitative and qualitative research to address similar objectives. What type of research approach does this refer to?', ['Mixed Method Research', 'Qualitative Research', 'Quantitative Research']),
+    Q('This research type helps in creating a more definite and complete picture of a discussion of information that uses both numerical data and interpretation, aiding in providing an expanded and deep explanation for complex or varied questions.', ['Mixed Method Research', 'Qualitative Research', 'Quantitative Research']),
+  ],
+};
+
+const fmt = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<mark>$1</mark>');
+const isMulti = (c) => Array.isArray(c.a);
+const answersOf = (c) => (isMulti(c) ? c.a : [c.a]);
+const shuffle = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+let qs = { i: 0, score: 0 };
+
+function renderDeck() {
+  const n = QUIZ.cards.length;
+  $('#deck-title').textContent = QUIZ.title;
+  $('#deck-sub').textContent = `Deck · ${n} card${n === 1 ? '' : 's'}`;
+  $('#cards-h').textContent = `Cards (${n})`;
+  $('#cards').innerHTML = QUIZ.cards.map((c) => {
+    const ans = answersOf(c);
+    return `
+      <article class="qcard">
+        ${c.h ? `<div class="qh">${esc(c.h)}</div>` : ''}
+        <div class="qt">${fmt(c.q)}</div>
+        <ul>${c.opts.map((o, k) => {
+          const ok = ans.includes(k);
+          return `<li class="${ok ? 'ok' : ''}"><span class="ic" aria-hidden="true">${ok ? '✓' : '✕'}</span><span>${esc(o)}</span></li>`;
+        }).join('')}</ul>
+      </article>`;
+  }).join('');
 }
-function grade(picked){
-  const c=QUIZ.cards[qs.i],ans=answersOf(c);
-  const ok=picked.length===ans.length&&picked.every(k=>ans.includes(k));
-  if(ok)qs.score++;
-  $$('#study .opt').forEach(b=>{const k=+b.dataset.k;b.disabled=true;b.classList.remove('sel');if(ans.includes(k))b.classList.add('right');else if(picked.includes(k))b.classList.add('wrong')});
-  const last=qs.i===QUIZ.cards.length-1;
-  $('.sfoot').innerHTML=`<span class="fb ${ok?'ok':'no'}">${ok?'Correct!':'Not quite — the answer is '+esc(ans.map(k=>c.opts[k]).join(', '))+'.'}</span><button class="studybtn" id="s-next">${last?'See results':'Next'}</button>`;
-  $('#s-next').onclick=()=>{qs.i++;renderQ()};$('#s-next').focus();
+
+function showStudy(on) {
+  $('#materials').classList.toggle('hidden', on);
+  $('#study').classList.toggle('hidden', !on);
+  $('#study-btn').classList.toggle('hidden', on);
 }
-$('#study-btn').onclick=startStudy;
+
+function startStudy() {
+  qs = { i: 0, score: 0 };
+  showStudy(true);
+  renderQ();
+  $('#quiz').scrollIntoView({ block: 'start' });
+}
+
+function renderQ() {
+  const n = QUIZ.cards.length, box = $('#study');
+
+  if (qs.i >= n) { // results
+    box.innerHTML = `
+      <div class="sq score">
+        <p class="big">${qs.score}/${n}</p>
+        <p>${qs.score === n ? 'Perfect score! You know your research basics.' : 'Nice try! Review the deck and give it another go.'}</p>
+        <div class="row"><button class="studybtn" id="s-retry">Try again</button><button class="ghost" id="s-back">Back to deck</button></div>
+      </div>`;
+    $('#s-retry').onclick = startStudy;
+    $('#s-back').onclick = () => showStudy(false);
+    return;
+  }
+
+  const c = QUIZ.cards[qs.i], multi = isMulti(c);
+  box.innerHTML = `
+    <div class="sq">
+      <div class="sprog">
+        <span>Question ${qs.i + 1} of ${n}</span>
+        <div class="bar"><i style="width:${qs.i / n * 100}%"></i></div>
+        <button class="ghost" id="s-exit">Exit</button>
+      </div>
+      ${c.h ? `<p class="sh">${esc(c.h)}</p>` : ''}
+      <p class="qt">${fmt(c.q)}</p>
+      <div class="opts">${shuffle(c.opts.map((_, k) => k)).map((k) =>
+        `<button class="opt" data-k="${k}"${multi ? ' aria-pressed="false"' : ''}>${esc(c.opts[k])}</button>`).join('')}</div>
+      <div class="sfoot">${multi
+        ? '<span class="fb">Select all that apply.</span><button class="studybtn" id="s-check">Check answer</button>'
+        : '<span class="fb" id="fb"></span>'}</div>
+    </div>`;
+
+  $('#s-exit').onclick = () => showStudy(false);
+
+  if (multi) {
+    $$('#study .opt').forEach((b) => b.onclick = () => {
+      const on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', on);
+      b.classList.toggle('sel', on);
+    });
+    $('#s-check').onclick = () => {
+      const picked = $$('#study .opt[aria-pressed=true]').map((b) => +b.dataset.k);
+      if (picked.length) grade(picked);
+    };
+  } else {
+    $$('#study .opt').forEach((b) => b.onclick = () => grade([+b.dataset.k]));
+  }
+}
+
+function grade(picked) {
+  const c = QUIZ.cards[qs.i], ans = answersOf(c);
+  const ok = picked.length === ans.length && picked.every((k) => ans.includes(k));
+  if (ok) qs.score++;
+
+  $$('#study .opt').forEach((b) => {
+    const k = +b.dataset.k;
+    b.disabled = true;
+    b.classList.remove('sel');
+    if (ans.includes(k)) b.classList.add('right');
+    else if (picked.includes(k)) b.classList.add('wrong');
+  });
+
+  const last = qs.i === QUIZ.cards.length - 1;
+  $('.sfoot').innerHTML = `
+    <span class="fb ${ok ? 'ok' : 'no'}">${ok ? 'Correct!' : 'Not quite — the answer is ' + esc(ans.map((k) => c.opts[k]).join(', ')) + '.'}</span>
+    <button class="studybtn" id="s-next">${last ? 'See results' : 'Next'}</button>`;
+  $('#s-next').onclick = () => { qs.i++; renderQ(); };
+  $('#s-next').focus();
+}
+
+$('#study-btn').onclick = startStudy;
 renderDeck();
 
-
-/* copy */
-const ICON_COPY='<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',ICON_OK='<path d="M5 12l5 5 9-10"/>';
-$('#copy').onclick=async()=>{
-  const w=$('#write'),txt=w.value;
-  if(!txt.trim()){w.focus();return}
-  let ok=false;
-  try{await navigator.clipboard.writeText(txt);ok=true}catch(e){}
-  if(!ok){try{w.select();ok=document.execCommand('copy');w.setSelectionRange(txt.length,txt.length)}catch(e){}}
-  if(!ok)return;
-  const b=$('#copy');b.classList.add('done');$('#copy-ic').innerHTML=ICON_OK;$('#copied').classList.remove('hidden');
-  setTimeout(()=>{b.classList.remove('done');$('#copy-ic').innerHTML=ICON_COPY;$('#copied').classList.add('hidden')},1600);
-};
-
-
-/* clear with confirmation */
-let lastFocus=null;
-function openConfirm(){
-  if(!$('#write').value)return;
-  lastFocus=document.activeElement;$('#confirm').classList.remove('hidden');$('#c-no').focus();
+/* =====================================================
+   Tabs + game cards
+   ===================================================== */
+function tab(t) {
+  $('#writing').classList.toggle('hidden', t !== 'writing');
+  $('#interactives').classList.toggle('hidden', t !== 'interactives');
+  $$('.tab').forEach((b) => b.setAttribute('aria-selected', b.dataset.t === t));
+  $('#flip').textContent = t === 'writing' ? '›' : '‹';
 }
-function closeConfirm(){$('#confirm').classList.add('hidden');if(lastFocus&&lastFocus.focus)lastFocus.focus()}
-$('#clear').onclick=openConfirm;
-$('#c-no').onclick=closeConfirm;
-$('#c-yes').onclick=()=>{
-  const w=$('#write');w.value='';store[w.dataset.key]='';save();closeConfirm();w.focus();
-};
-$('#confirm').addEventListener('click',e=>{if(e.target.id==='confirm')closeConfirm()});
-document.addEventListener('keydown',e=>{
-  if($('#confirm').classList.contains('hidden'))return;
-  if(e.key==='Escape'){closeConfirm();return}
-  if(e.key==='Tab'){const a=$('#c-no'),b=$('#c-yes');
-    if(e.shiftKey&&document.activeElement===a){e.preventDefault();b.focus()}
-    else if(!e.shiftKey&&document.activeElement===b){e.preventDefault();a.focus()}}
+$$('.tab').forEach((b) => b.onclick = () => tab(b.dataset.t));
+$('#flip').onclick = () => tab($('#writing').classList.contains('hidden') ? 'writing' : 'interactives');
+
+$$('.game').forEach((b) => b.onclick = () => {
+  $$('.game').forEach((x) => x.setAttribute('aria-pressed', x === b));
+  const g = b.dataset.g;
+  $('#activities').classList.toggle('hidden', g !== 'activity');
+  $('#quiz').classList.toggle('hidden', g !== 'quiz');
+  if (g !== 'activity') $('#viewer').classList.add('hidden');
+  if (g === 'quiz') showStudy(false);
 });
 
-/* tabs + cards */
-function tab(t){
-  $('#writing').classList.toggle('hidden',t!=='writing');$('#interactives').classList.toggle('hidden',t!=='interactives');
-  $$('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));$('#flip').textContent=t==='writing'?'›':'‹';
-}
-$$('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.t));
-$('#flip').onclick=()=>tab($('#writing').classList.contains('hidden')?'writing':'interactives');
-$$('.game').forEach(b=>b.onclick=()=>{
-  $$('.game').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  const g=b.dataset.g;
-  $('#activities').classList.toggle('hidden',g!=='activity');
-  $('#quiz').classList.toggle('hidden',g!=='quiz');
-  if(g!=='activity')$('#viewer').classList.add('hidden');
-  if(g==='quiz')showStudy(false);
-});
 </script>
-</body>
-</html>
+
+</body></html>
